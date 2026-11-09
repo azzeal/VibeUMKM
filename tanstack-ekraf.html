@@ -1,5 +1,6 @@
 <!doctype html><html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Panduan Lab TanStack EKRAF</title>
+<script>try{var t=localStorage.getItem('tekraf-theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <meta name="description" content="Panduan lab revamp tampilan, perbaikan bug, dan penguatan keamanan dashboard admin TanStack Start.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -254,6 +255,7 @@ html{scroll-behavior:smooth}
   <button type="button" class="ab-btn" id="navToggle" aria-label="Buka daftar isi"><svg class="ni" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <span class="ab-title">Panduan Lab</span>
   <div class="ab-right">
+    <button type="button" class="ab-btn" id="themeBtn" aria-label="Ganti tema terang atau gelap" title="Ganti tema terang / gelap"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M19.07 4.93l-1.41 1.41"/></svg><span id="themeTxt">Gelap</span></button>
     <span class="prog" id="progTxt" title="Langkah selesai">0 / 0</span>
     <button type="button" class="ab-btn" id="resetBtn" aria-label="Reset semua centang"><svg class="ni" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 1 2.4 5.7"/><path d="M4 20v-5h5"/></svg><span id="resetTxt">Reset</span></button>
   </div>
@@ -963,6 +965,13 @@ Keamanan yang saya perbaiki: [2 poin]</pre></div></div>
     });
   }
   render();
+
+  /* theme: light/dark toggle, default follows the device setting */
+  var tb=document.getElementById('themeBtn'),tt=document.getElementById('themeTxt');
+  function effTheme(){var d=document.documentElement.getAttribute('data-theme');return d==='dark'||d==='light'?d:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
+  function themeSync(){tt.textContent=effTheme()==='light'?'Gelap':'Terang'}
+  themeSync();
+  tb.addEventListener('click',function(){var next=effTheme()==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',next);lsSet('tekraf-theme',next);themeSync()});
 
   /* reset with in-page confirmation */
   var rb=document.getElementById('resetBtn'),rt=document.getElementById('resetTxt'),rto=null;
