@@ -255,7 +255,7 @@ html{scroll-behavior:smooth}
   <button type="button" class="ab-btn" id="navToggle" aria-label="Buka daftar isi"><svg class="ni" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   <span class="ab-title">Panduan Lab</span>
   <div class="ab-right">
-    <button type="button" class="ab-btn" id="themeBtn" aria-label="Ganti tema terang atau gelap" title="Ganti tema terang / gelap"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M19.07 4.93l-1.41 1.41"/></svg><span id="themeTxt">Gelap</span></button>
+    <button type="button" class="ab-btn" id="themeBtn" aria-label="Ganti tema terang atau gelap" title="Tema terang / gelap"><svg class="ni" id="themeIco" viewBox="0 0 24 24" aria-hidden="true"></svg></button>
     <span class="prog" id="progTxt" title="Langkah selesai">0 / 0</span>
     <button type="button" class="ab-btn" id="resetBtn" aria-label="Reset semua centang"><svg class="ni" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 1 2.4 5.7"/><path d="M4 20v-5h5"/></svg><span id="resetTxt">Reset</span></button>
   </div>
@@ -342,7 +342,7 @@ html{scroll-behavior:smooth}
       <div class="row"><span class="lab">Windows</span><p>Buka <a href="https://git-scm.com/install/windows" target="_blank" rel="noopener">git-scm.com/install/windows</a>, unduh pemasang 64-bit, lalu jalankan. Pertahankan pilihan bawaan, termasuk <b>Git Credential Manager</b>.</p></div>
     </div>
     <div class="only-mac" style="display:grid;gap:12px">
-      <div class="row"><span class="lab">Mac</span><p>Jalankan <code class="i">git --version</code> di Terminal. Kalau diminta memasang Command Line Tools, setujui.</p></div>
+      <div class="row"><span class="lab">Mac</span><p>Buka <a href="https://git-scm.com/install/mac" target="_blank" rel="noopener">git-scm.com/install/mac</a> dan ikuti petunjuk di halaman itu.</p></div>
     </div>
     <div class="row"><span class="lab">Berhasil kalau</span><p><code class="i">git --version</code> menampilkan nomor versi. Login GitHub tidak diminta sekarang; jendela login muncul sendiri saat push pertama.</p></div>
   </div>
@@ -966,10 +966,12 @@ Keamanan yang saya perbaiki: [2 poin]</pre></div></div>
   }
   render();
 
-  /* theme: light/dark toggle, default follows the device setting */
-  var tb=document.getElementById('themeBtn'),tt=document.getElementById('themeTxt');
+  /* theme: light/dark toggle (icon only), default follows the device setting */
+  var tb=document.getElementById('themeBtn'),ico=document.getElementById('themeIco'),
+      ICO_SUN='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M19.07 4.93l-1.41 1.41"/>',
+      ICO_MOON='<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>';
   function effTheme(){var d=document.documentElement.getAttribute('data-theme');return d==='dark'||d==='light'?d:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
-  function themeSync(){tt.textContent=effTheme()==='light'?'Gelap':'Terang'}
+  function themeSync(){ico.innerHTML=effTheme()==='dark'?ICO_SUN:ICO_MOON}
   themeSync();
   tb.addEventListener('click',function(){var next=effTheme()==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',next);lsSet('tekraf-theme',next);themeSync()});
 
