@@ -424,7 +424,7 @@ BETTER_AUTH_SECRET=<span class="ph">tempel-hasil-di-atas</span></pre></div></div
   <div class="step" data-id="2.4">
     <h3><span class="sn">2.4</span>Seed admin lalu login</h3>
     <div class="row"><span class="lab">Seed</span><p>Buka <code class="i">http://localhost:3000/setup</code> dan klik <b>Seed Admin Account</b>. Perintah ini membuat akun admin dan beberapa produk contoh.</p></div>
-    <div class="row"><span class="lab">Login</span><p>Buka <code class="i">/login</code>, masuk dengan email <code class="i">admin@example.com</code> dan password <code class="i">admin12345</code>.</p></div>
+    <div class="row"><span class="lab">Login</span><p>Buka <code class="i">/demo/better-auth</code> (alamat <code class="i">/login</code> mengalihkan ke sana), masuk dengan email <code class="i">admin@example.com</code> dan password <code class="i">admin12345</code>. Halaman ini bagian dari Tugas A: tampilan masuknya akan kamu poles nanti.</p></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p>Kamu masuk ke <code class="i">/dashboard</code> dan melihat sidebar dengan menu Dashboard, Products, dan Users.</p></div>
     <div class="row"><span class="lab">Ingat</span><p>Tidak ada database permanen. Data hilang setiap server restart, jadi ulangi seed setelah restart atau setelah deploy.</p></div>
   </div>
@@ -447,11 +447,10 @@ BETTER_AUTH_SECRET=<span class="ph">tempel-hasil-di-atas</span></pre></div></div
     <div class="tw"><table>
       <thead><tr><th>Letak</th><th>Isinya</th></tr></thead>
       <tbody>
-        <tr><td><code class="i">src/routes/</code></td><td>Semua halaman. Halaman admin ada di bawah layout <code class="i">_admin.tsx</code> yang menjaga login dan memasang sidebar.</td></tr>
-        <tr><td><code class="i">src/lib/auth.ts</code></td><td>Konfigurasi Better Auth: sesi, cookie, dan origin yang dipercaya.</td></tr>
-        <tr><td><code class="i">src/lib/session.ts</code></td><td><code class="i">requireAuth()</code> dan <code class="i">requireAdmin()</code> yang dipakai server function.</td></tr>
-        <tr><td><code class="i">src/lib/server/</code></td><td>Server function: produk, pengguna, dan penanganan error.</td></tr>
-        <tr><td><code class="i">src/components/</code></td><td>Komponen tampilan, termasuk <code class="i">ProductFormModal</code> dan <code class="i">UserRoleModal</code>.</td></tr>
+        <tr><td><code class="i">src/routes/</code></td><td>Semua halaman. Area admin dibungkus layout route <code class="i">_admin</code> (<code class="i">DashboardShell</code>: penjaga login + sidebar). Buat dan edit produk serta ganti peran berbentuk <b>modal</b>, bukan halaman.</td></tr>
+        <tr><td><code class="i">src/lib/auth.ts</code></td><td>Konfigurasi Better Auth: <code class="i">requireAuth()</code>, <code class="i">requireAdmin()</code>, dan seed.</td></tr>
+        <tr><td>Server function</td><td><code class="i">createProduct</code>, <code class="i">updateProduct</code>, <code class="i">deleteProduct</code>, <code class="i">updateUserRole</code>, <code class="i">deleteUser</code>, <code class="i">getUsers</code>.</td></tr>
+        <tr><td><code class="i">src/components/</code></td><td><code class="i">Header</code>, <code class="i">Footer</code>, <code class="i">ThemeToggle</code>, komponen shadcn di <code class="i">ui/</code>, <code class="i">ProductFormModal</code>, <code class="i">UserRoleModal</code>.</td></tr>
         <tr><td><code class="i">src/components/ui/</code></td><td>Komponen shadcn: button, dialog, input, select, dan lainnya.</td></tr>
       </tbody>
     </table></div>
@@ -460,7 +459,7 @@ BETTER_AUTH_SECRET=<span class="ph">tempel-hasil-di-atas</span></pre></div></div
 
   <div class="step" data-id="3.2">
     <h3><span class="sn">3.2</span>Telusuri empat halaman</h3>
-    <div class="row"><span class="lab">Langkah</span><p>Dengan aplikasi berjalan, buka <code class="i">/dashboard</code>, <code class="i">/products</code>, <code class="i">/users</code>, dan <code class="i">/login</code>. Catat tiga hal: yang sudah bagus, yang rusak, dan yang membingungkan.</p></div>
+    <div class="row"><span class="lab">Langkah</span><p>Dengan aplikasi berjalan, buka <code class="i">/dashboard</code>, <code class="i">/products</code>, <code class="i">/users</code>, dan halaman masuk <code class="i">/demo/better-auth</code>. Catat tiga hal: yang sudah bagus, yang rusak, dan yang membingungkan.</p></div>
     <div class="row"><span class="lab">Coba juga</span><p>Kecilkan jendela browser selebar HP, lalu lihat halaman mana yang berantakan. Buka <code class="i">/products</code> dan coba isi kolom form produk.</p></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p>Kamu punya daftar minimal 5 temuan nyata, bukan dugaan.</p></div>
   </div>
@@ -511,7 +510,7 @@ BETTER_AUTH_SECRET=<span class="ph">tempel-hasil-di-atas</span></pre></div></div
 
   <div class="step" data-id="4.3">
     <h3><span class="sn">4.3</span>Desain ulang halaman login</h3>
-    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Desain ulang halaman /login menjadi kartu masuk yang bersih dan modern: terpusat, ada judul dan logo sederhana, bayangan halus, mendukung mode gelap, dan pesan kesalahan yang jelas saat email atau password salah. Jangan tampilkan pesan yang membocorkan apakah email terdaftar. Pertahankan fungsi login yang sudah ada.</pre></div></div>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Desain ulang halaman masuk di /demo/better-auth (/login mengalihkan ke sana) menjadi kartu sign-in yang bersih dan modern: terpusat, ada judul dan logo sederhana, bayangan halus, mendukung mode gelap, dan pesan kesalahan yang jelas saat email atau password salah. Jangan tampilkan pesan yang membocorkan apakah email terdaftar. Pertahankan fungsi login yang sudah ada.</pre></div></div>
     <div class="row"><span class="lab">Uji</span><p>Coba password salah, pastikan pesannya jelas dan tidak menyebut akun mana yang keliru. Coba juga mode gelap lewat tombol tema.</p></div>
   </div>
 
@@ -725,6 +724,7 @@ BETTER_AUTH_SECRET=<span class="ph">[kunci baru dari bun x @better-auth/cli secr
       <li>Semua route di langkah 5.4 sudah diuji sendiri.</li>
       <li>Minimal dua perbaikan keamanan, satu dari tiap kolom, dengan penjelasan.</li>
       <li>Pull Request terbuka dan link Vercel bisa dibuka di jendela penyamaran.</li>
+      <li>Klon segar dari repo, <code class="i">bun install</code>, <code class="i">/setup</code>, sampai login berhasil tanpa cacat.</li>
       <li>Tidak ada <code class="i">.env.local</code> atau kunci rahasia di repo.</li>
       <li><code class="i">RENCANA.md</code>, <code class="i">PROMPT-LOG.md</code>, <code class="i">SECURITY-NOTES.md</code>, dan <code class="i">NOTES.md</code> ada di repo.</li>
     </ul>
