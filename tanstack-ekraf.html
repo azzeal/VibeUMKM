@@ -444,24 +444,14 @@ BETTER_AUTH_SECRET=<span class="ph">tempel-hasil-di-atas</span></pre></div></div
 
   <div class="step" data-id="3.1">
     <h3><span class="sn">3.1</span>Baca peta repo</h3>
-    <div class="tw"><table>
-      <thead><tr><th>Letak</th><th>Isinya</th></tr></thead>
-      <tbody>
-        <tr><td><code class="i">src/routes/</code></td><td>Semua halaman. Area admin dibungkus layout route <code class="i">_admin</code> (<code class="i">DashboardShell</code>: penjaga login + sidebar). Buat dan edit produk serta ganti peran berbentuk <b>modal</b>, bukan halaman.</td></tr>
-        <tr><td><code class="i">src/lib/auth.ts</code></td><td>Konfigurasi Better Auth: <code class="i">requireAuth()</code>, <code class="i">requireAdmin()</code>, dan seed.</td></tr>
-        <tr><td>Server function</td><td><code class="i">createProduct</code>, <code class="i">updateProduct</code>, <code class="i">deleteProduct</code>, <code class="i">updateUserRole</code>, <code class="i">deleteUser</code>, <code class="i">getUsers</code>.</td></tr>
-        <tr><td><code class="i">src/components/</code></td><td><code class="i">Header</code>, <code class="i">Footer</code>, <code class="i">ThemeToggle</code>, komponen shadcn di <code class="i">ui/</code>, <code class="i">ProductFormModal</code>, <code class="i">UserRoleModal</code>.</td></tr>
-        <tr><td><code class="i">src/components/ui/</code></td><td>Komponen shadcn: button, dialog, input, select, dan lainnya.</td></tr>
-      </tbody>
-    </table></div>
-    <div class="row"><span class="lab">Yang perlu diingat</span><p><code class="i">routeTree.gen.ts</code> dibuat otomatis. Setiap kali menambah atau menghapus file route, jalankan <code class="i">bunx tsr generate</code>.</p></div>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Jelaskan peta repo proyek ini dengan bahasa sederhana: untuk tiap folder utama (src/routes, src/lib, src/components), sebutkan isinya dan hubungannya dengan tugas revamp, fix, dan security. Sebutkan juga file routeTree.gen.ts dan kapan ia harus dibuat ulang.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Kamu bisa menyebut letak sidebar, modal produk, dan server function tanpa membuka file.</p></div>
   </div>
 
   <div class="step" data-id="3.2">
     <h3><span class="sn">3.2</span>Telusuri empat halaman</h3>
-    <div class="row"><span class="lab">Langkah</span><p>Dengan aplikasi berjalan, buka <code class="i">/dashboard</code>, <code class="i">/products</code>, <code class="i">/users</code>, dan halaman masuk <code class="i">/demo/better-auth</code>. Catat tiga hal: yang sudah bagus, yang rusak, dan yang membingungkan.</p></div>
-    <div class="row"><span class="lab">Coba juga</span><p>Kecilkan jendela browser selebar HP, lalu lihat halaman mana yang berantakan. Buka <code class="i">/products</code> dan coba isi kolom form produk.</p></div>
-    <div class="row"><span class="lab">Berhasil kalau</span><p>Kamu punya daftar minimal 5 temuan nyata, bukan dugaan.</p></div>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Dengan server berjalan, buka /dashboard, /products, /users, dan /demo/better-auth. Untuk tiap halaman catat: yang sudah bagus, yang rusak atau membingungkan, dan apa yang akan kamu ubah. Cek juga tampilannya di lebar 400px. Simpan hasilnya ke file TEMUAN.md di folder proyek.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p><code class="i">TEMUAN.md</code> berisi minimal 5 temuan nyata, bukan dugaan.</p></div>
   </div>
 
   <div class="step" data-id="3.3">
