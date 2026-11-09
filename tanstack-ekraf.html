@@ -390,28 +390,19 @@ html{scroll-behavior:smooth}
   <div class="note info"><strong>Tampilan aplikasi bisa sedikit berbeda</strong><p>Nama tombol dan menu bisa berubah mengikuti versi. Cari yang artinya paling dekat, atau minta fasilitator menunjukkan layarnya.</p></div>
 
   <div class="step" data-id="2.1">
-    <h3><span class="sn">2.1</span>Clone repo</h3>
-    <div class="row"><span class="lab">Clone</span><p>Buka folder <b>Documents</b>, klik kanan di area kosong, pilih <b>Open Git Bash here</b> (Windows) atau buka Terminal (Mac), lalu jalankan tiga perintah berikut.</p></div>
-    <div class="code cmd"><pre>git clone https://github.com/azzeal/tanstack_ekraf.git <span class="ph" data-k="folder">[nama-folder]</span>
+    <h3><span class="sn">2.1</span>Ambil salinan dari template, lalu clone</h3>
+    <div class="row"><span class="lab">Pakai template</span><p>Buka <a href="https://github.com/azzeal/tanstack_ekraf" target="_blank" rel="noopener">github.com/azzeal/tanstack_ekraf</a>, klik <b>Use this template</b> &rarr; <b>Create a new repository</b>. Ini membuat repo baru milikmu, bukan fork, jadi riwayatnya bersih.</p></div>
+    <div class="row"><span class="lab">Isi form</span><p>Nama repo <span class="ph" data-k="folder">[nama-folder]</span>, pilih <b>Public</b>, lalu klik <b>Create repository</b>.</p></div>
+    <div class="row"><span class="lab">Clone</span><p>Di halaman repo barumu klik <b>Code</b> dan salin alamatnya. Lalu buka folder <b>Documents</b>, klik kanan di area kosong, pilih <b>Open Git Bash here</b> (Windows) atau buka Terminal (Mac), dan jalankan tiga perintah berikut.</p></div>
+    <div class="code cmd"><pre>git clone https://github.com/<span class="ph" data-k="user">[username GitHub]</span>/<span class="ph" data-k="folder">[nama-folder]</span>.git
 cd <span class="ph" data-k="folder">[nama-folder]</span>
 bun install</pre></div>
-    <div class="row"><span class="lab">Berhasil kalau</span><p>Folder proyek muncul di Documents, dan <code class="i">bun install</code> selesai tanpa tulisan merah.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Folder proyek muncul di Documents, <code class="i">bun install</code> selesai tanpa tulisan merah, dan <code class="i">git remote -v</code> menunjuk ke repo milikmu sendiri.</p></div>
+    <div class="row"><span class="lab">Catatan fasilitator</span><p>Supaya tombol <b>Use this template</b> muncul di repo asal, buka <b>Settings</b> repo itu dan centang <b>Template repository</b>.</p></div>
   </div>
 
   <div class="step" data-id="2.2">
-    <h3><span class="sn">2.2</span>Arahkan ke repo GitHub milikmu</h3>
-    <div class="row"><span class="lab">Buat repo</span><p>Di GitHub klik <b>+ &rarr; New repository</b>. Isi nama <span class="ph" data-k="folder">[nama-folder]</span>, pilih <b>Public</b>, jangan centang <b>Add a README</b>, lalu <b>Create repository</b>.</p></div>
-    <div class="row"><span class="lab">Ganti remote</span><p>Kembali ke terminal di folder proyek, lalu jalankan perintah di bawah supaya hasil kerjamu masuk ke repo sendiri.</p></div>
-    <div class="code cmd"><pre>git remote set-url origin https://github.com/<span class="ph" data-k="user">[username GitHub]</span>/<span class="ph" data-k="folder">[nama-folder]</span>.git
-git remote -v
-git push -u origin main</pre></div>
-    <div class="row"><span class="lab">Login sekali saja</span><p>Push pertama membuka jendela <b>Git Credential Manager</b>. Pilih <b>Sign in with your browser</b>, setujui akses untuk repo itu, lalu kembali ke terminal. Setelah ini kamu tidak ditanya lagi.</p></div>
-    <div class="row"><span class="lab">Berhasil kalau</span><p>Halaman repo di GitHub menampilkan file proyek, dan <code class="i">git remote -v</code> menunjuk ke <code class="i">github.com/<span class="ph" data-k="user">[username GitHub]</span>/<span class="ph" data-k="folder">[nama-folder]</span></code>.</p></div>
-    <div class="row"><span class="lab">Kalau salah alamat</span><p>Ulangi <code class="i">git remote set-url origin</code> dengan alamat yang benar, lalu cek lagi dengan <code class="i">git remote -v</code>.</p></div>
-  </div>
-
-  <div class="step" data-id="2.3">
-    <h3><span class="sn">2.3</span>Buat file .env.local</h3>
+    <h3><span class="sn">2.2</span>Buat file .env.local</h3>
     <div class="row"><span class="lab">Kenapa</span><p>Aplikasi butuh alamat dasar dan kunci sesi. Tanpa keduanya, login akan gagal.</p></div>
     <div class="row"><span class="lab">Buat kunci</span><p>Jalankan perintah ini di folder proyek, lalu salin hasilnya.</p><div class="code cmd"><pre>bun x @better-auth/cli secret</pre></div></div>
     <div class="row"><span class="lab">Isi file</span><p>Buat file bernama <code class="i">.env.local</code> di folder utama proyek, isinya dua baris berikut.</p><div class="code cmd"><pre>BETTER_AUTH_URL=http://localhost:3000
@@ -420,24 +411,24 @@ BETTER_AUTH_SECRET=<span class="ph">tempel-hasil-di-atas</span></pre></div></div
     <div class="row"><span class="lab">Berhasil kalau</span><p>File <code class="i">.env.local</code> ada di folder proyek dan berisi dua baris itu.</p></div>
   </div>
 
-  <div class="step" data-id="2.4">
-    <h3><span class="sn">2.4</span>Jalankan aplikasinya</h3>
+  <div class="step" data-id="2.3">
+    <h3><span class="sn">2.3</span>Jalankan aplikasinya</h3>
     <div class="code"><pre>bun dev</pre></div>
     <div class="row"><span class="lab">Buka</span><p>Kunjungi <code class="i">http://localhost:3000</code> di browser.</p></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p>Halaman awal aplikasi terbuka tanpa layar error. Biarkan terminal itu tetap berjalan selama kamu bekerja.</p></div>
     <div class="row"><span class="lab">Kalau port dipakai</span><p>Hentikan dengan <b>Ctrl+C</b> di terminal, jalankan lagi, atau minta AI memakai port lain.</p></div>
   </div>
 
-  <div class="step" data-id="2.5">
-    <h3><span class="sn">2.5</span>Seed admin lalu login</h3>
+  <div class="step" data-id="2.4">
+    <h3><span class="sn">2.4</span>Seed admin lalu login</h3>
     <div class="row"><span class="lab">Seed</span><p>Buka <code class="i">http://localhost:3000/setup</code> dan klik <b>Seed Admin Account</b>. Perintah ini membuat akun admin dan beberapa produk contoh.</p></div>
     <div class="row"><span class="lab">Login</span><p>Buka <code class="i">/login</code>, masuk dengan email <code class="i">admin@example.com</code> dan password <code class="i">admin12345</code>.</p></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p>Kamu masuk ke <code class="i">/dashboard</code> dan melihat sidebar dengan menu Dashboard, Products, dan Users.</p></div>
     <div class="row"><span class="lab">Ingat</span><p>Tidak ada database permanen. Data hilang setiap server restart, jadi ulangi seed setelah restart atau setelah deploy.</p></div>
   </div>
 
-  <div class="step" data-id="2.6">
-    <h3><span class="sn">2.6</span>Buat branch kerja</h3>
+  <div class="step" data-id="2.5">
+    <h3><span class="sn">2.5</span>Buat branch kerja</h3>
     <div class="code cmd"><pre>git checkout -b revamp-<span class="ph" data-k="user">[username GitHub]</span></pre></div>
     <div class="row"><span class="lab">Kenapa</span><p>Semua perubahanmu masuk ke branch ini, bukan ke <code class="i">main</code>. Nanti branch ini yang jadi Pull Request.</p></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p><code class="i">git status</code> menyebut nama branch barumu.</p></div>
@@ -667,6 +658,7 @@ git commit -m "revamp tampilan, perbaikan bug, dan penguatan keamanan"</pre></di
   <div class="step" data-id="7.2">
     <h3><span class="sn">7.2</span>Push branch dan buka Pull Request</h3>
     <div class="code cmd"><pre>git push -u origin revamp-<span class="ph" data-k="user">[username GitHub]</span></pre></div>
+    <div class="row"><span class="lab">Login sekali saja</span><p>Push pertama membuka jendela <b>Git Credential Manager</b>. Pilih <b>Sign in with your browser</b>, setujui akses, lalu kembali ke terminal. Setelah ini kamu tidak ditanya lagi.</p></div>
     <div class="row"><span class="lab">Buka PR</span><p>Buka repo-mu di GitHub. Setelah branch ter-push, muncul banner <b>Compare &amp; pull request</b>. Kalau tidak muncul, buka tab <b>Pull requests &rarr; New pull request</b>, pilih base <code class="i">main</code> dan compare branch kerjamu.</p></div>
     <div class="row"><span class="lab">Isi PR</span><div class="code"><pre>Tugas A (revamp): [3 halaman yang diubah dan alasannya]
 Tugas B (fix): [bug yang dibetulkan dan cara memunculkannya]
@@ -781,8 +773,6 @@ Keamanan yang saya perbaiki: [2 poin]</pre></div></div>
     <details class="dd"><summary>Vercel menampilkan 500 setelah deploy</summary><div class="in"><p>Buka <b>Deployments &rarr; Functions &rarr; Logs</b>. Penyebab tersering: environment variable belum diisi, <code class="i">BETTER_AUTH_URL</code> masih localhost, atau build gagal karena lint.</p></div></details>
     <details class="dd"><summary>AI merusak hasil yang tadinya bagus</summary><div class="in"><p>Batalkan semua perubahan yang belum di-commit dengan perintah di bawah. Perubahan yang sudah ter-commit tetap aman.</p><div class="code cmd"><pre>git restore .</pre></div></div></details>
     <details class="dd"><summary>Push meminta login atau muncul "Authentication failed"</summary><div class="in"><p>Jendela <b>Git Credential Manager</b> terbuka saat push pertama. Pilih <b>Sign in with your browser</b> dan setujui akses. Kalau jendelanya tidak muncul, jalankan <code class="i">git credential-manager configure</code> lalu push lagi. Di Mac, gunakan Personal Access Token sebagai password bila diminta.</p></div></details>
-    <details class="dd"><summary>remote origin masih menunjuk ke repo azzeal</summary><div class="in"><p>Ganti alamatnya ke repo milikmu, lalu cek hasilnya.</p><div class="code cmd"><pre>git remote set-url origin https://github.com/<span class="ph" data-k="user">[username GitHub]</span>/<span class="ph" data-k="folder">[nama-folder]</span>.git
-git remote -v</pre></div></div></details>
     <details class="dd"><summary>Perubahan saya tidak muncul di Pull Request</summary><div class="in"><p>Kamu mungkin commit di branch lain. Jalankan <code class="i">git branch --show-current</code>, pastikan hasilnya branch kerja yang benar, lalu push lagi. Bandingkan juga dengan tab Commits di halaman PR.</p></div></details>
   </div>
 </section>
