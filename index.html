@@ -1,0 +1,818 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Panduan Lab Vibe Coding UMKM</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Nunito+Sans:wght@400;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: handbook. Sticky app bar, chapter nav on the left, steps as checkable cards, progress rail on the right. */
+:root{
+  --bg:#F1F4F0; --card:#FBFDFB; --soft:#E3EAE4; --ink:#14211D; --muted:#4D5C56; --line:#C5D1C8; --edge:#14211D;
+  --accent:#0B6B5B; --accent-ink:#FFFFFF; --ok:#1E7A4C; --ok-soft:#D3EBDD; --warn-soft:#F9DDD6; --info-soft:#DCE9F3; --tip-soft:#FBE7B5;
+  --code-bg:#12201C; --code-fg:#E9F1EC; --code-dim:#9DB1A8;
+  --ph-bg:#F2B134; --ph-fg:#12201C; --ph-ok-bg:#BFE8D0;
+  --f-dpy:'Rubik','Segoe UI',Arial,sans-serif;
+  --f-body:'Nunito Sans','Segoe UI',Arial,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0E1613; --card:#16211D; --soft:#1F2D28; --ink:#E8F0EB; --muted:#A5B6AE; --line:#2C3C36; --edge:#50655C;
+  --accent:#4FD1B5; --accent-ink:#0E1613; --ok:#7BD99F; --ok-soft:#1D3B2B; --warn-soft:#4A2620; --info-soft:#1D3345; --tip-soft:#4A3A12;
+  --code-bg:#0A100E; --code-fg:#E9F1EC; --code-dim:#9DB1A8; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0E1613; --card:#16211D; --soft:#1F2D28; --ink:#E8F0EB; --muted:#A5B6AE; --line:#2C3C36; --edge:#50655C;
+  --accent:#4FD1B5; --accent-ink:#0E1613; --ok:#7BD99F; --ok-soft:#1D3B2B; --warn-soft:#4A2620; --info-soft:#1D3345; --tip-soft:#4A3A12;
+  --code-bg:#0A100E; --code-fg:#E9F1EC; --code-dim:#9DB1A8; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:80}
+a{color:var(--accent);text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--f-dpy);text-wrap:balance;margin:0;letter-spacing:-.01em}
+p{margin:0}
+b,strong{font-weight:700}
+.wrap{max-width:1280px;margin:0 auto;padding-block:0 110px}
+.ni{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* app bar */
+.appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:72;display:flex;align-items:center;gap:12px;padding:12px 0;background:var(--bg)}
+.appbar::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--soft)}
+.progbar{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--accent);transition:width .3s ease;z-index:1}
+.ab-btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-width:40px;height:40px;padding:0 10px;border:1.5px solid var(--edge);border-radius:10px;background:var(--card);font:700 14px/1 var(--f-body);color:var(--ink)}
+.ab-btn:hover{background:var(--soft)}
+.ab-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.ab-btn svg{width:20px;height:20px}
+.ab-title{font-family:var(--f-dpy);font-weight:600;font-size:18px}
+.ab-right{margin-left:auto;display:flex;align-items:center;gap:8px}
+.prog{font:700 14px/1 var(--f-mono);color:var(--ink);padding:11px 12px;border:1.5px solid var(--edge);border-radius:999px;background:var(--card);white-space:nowrap}
+#navToggle{display:none}
+@media (max-width:900px){ #navToggle{display:inline-flex} }
+@media (max-width:480px){ .ab-title{display:none} }
+
+/* hero */
+.head{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:32px 44px;align-items:center;margin-top:20px;padding:30px clamp(20px,4vw,44px);background:var(--soft);border:1.5px solid var(--edge);border-radius:20px}
+.head-copy{display:grid;gap:14px;min-width:0}
+.eyebrow{font:700 14px/1.3 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.head h1{font-size:clamp(34px,5.6vw,58px);line-height:1.02;font-weight:700}
+.lead{font-size:19px;max-width:60ch}
+.muted{color:var(--muted)}
+@media (max-width:1000px){ .head{grid-template-columns:minmax(0,1fr)} }
+.term{background:var(--code-bg);border:1.5px solid var(--edge);border-radius:14px;overflow:hidden;min-width:0}
+.term-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.12)}
+.term-bar i{width:11px;height:11px;border-radius:50%;background:#F2B134}
+.term-bar i:nth-child(2){background:#7BD99F}.term-bar i:nth-child(3){background:#9DB1A8}
+.term-bar span{margin-left:6px;font:700 13px/1 var(--f-mono);color:var(--code-dim)}
+.term-body{margin:0;padding:16px 18px;font:500 15px/1.85 var(--f-mono);color:var(--code-fg);white-space:pre-wrap;overflow-wrap:anywhere}
+.term .dim{color:var(--code-dim)} .term .go{color:#7BD99F}
+.tl{display:block;animation:tlin .5s cubic-bezier(.22,1,.36,1) both}
+.l1{animation-delay:.3s}.l2{animation-delay:.8s}.l3{animation-delay:1.3s}.l4{animation-delay:1.8s}
+.caret{display:inline-block;width:9px;height:17px;background:var(--code-fg);vertical-align:-3px;margin-left:4px;animation:blink 1s steps(1) infinite}
+@keyframes tlin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes blink{50%{opacity:0}}
+
+/* route */
+.route{display:flex;flex-wrap:wrap;align-items:center;gap:8px 6px;margin-top:26px}
+.route a{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1.5px solid var(--edge);border-radius:999px;background:var(--card);color:var(--ink);text-decoration:none;font-weight:700;font-size:15px}
+.route a:hover{background:var(--soft)}
+.route a b{font:700 13px/1 var(--f-mono);color:var(--accent)}
+.route .sep{color:var(--muted);font-weight:700}
+
+/* data panel */
+.me{margin-top:22px;background:var(--card);border:1.5px solid var(--edge);border-radius:16px;padding:16px 20px}
+.me summary{cursor:pointer;display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font:600 19px/1.25 var(--f-dpy);list-style:none}
+.me summary::-webkit-details-marker{display:none}
+.me summary .ni{width:22px;height:22px;flex:none}
+.me summary .muted{font:400 15px/1.3 var(--f-body)}
+.me[open] summary{margin-bottom:14px}
+.me-badge{margin-left:auto;font:700 14px/1 var(--f-mono);padding:7px 11px;border:1.5px solid var(--edge);border-radius:999px;background:var(--tip-soft);color:var(--ink)}
+.me-badge.full{background:var(--ok-soft)}
+.me-chev{transition:transform .25s}
+.me[open] .me-chev{transform:rotate(180deg)}
+.me-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.me label{display:grid;gap:6px;align-content:start;font:700 13px/1.2 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.me input{font:400 16px/1.3 var(--f-body);color:var(--ink);background:var(--bg);border:1.5px solid var(--edge);border-radius:10px;padding:10px 12px;text-transform:none;letter-spacing:0;min-width:0;width:100%}
+.me input:focus{outline:3px solid var(--accent);outline-offset:1px}
+.me .hint{font:400 14px/1.4 var(--f-body);text-transform:none;letter-spacing:0;color:var(--muted)}
+
+/* layout + nav */
+.grid{display:grid;grid-template-columns:230px minmax(0,1fr) 260px;gap:40px;margin-top:30px;align-items:start}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:grid;gap:2px;align-content:start}
+nav.toc a{display:flex;gap:10px;align-items:center;color:var(--ink);text-decoration:none;padding:8px 10px;border-radius:10px;font-weight:600;font-size:16px}
+nav.toc a b{font:700 13px/1 var(--f-mono);color:var(--muted);min-width:16px;text-align:center}
+nav.toc a:hover,nav.toc a.active{background:var(--soft)}
+nav.toc a.active b{color:var(--accent)}
+nav.toc a .tick{margin-left:auto;width:18px;height:18px;color:var(--ok);opacity:0;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+nav.toc a.complete .tick{opacity:1}
+.backdrop{display:none}
+main{display:grid;gap:56px;min-width:0}
+@media (max-width:1179px){ .grid{grid-template-columns:230px minmax(0,1fr)} .rail{display:none} }
+@media (max-width:900px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  nav.toc{position:fixed;inset:0 auto 0 0;width:min(80vw,310px);background:var(--card);border-right:1.5px solid var(--edge);padding:calc(env(safe-area-inset-top,0px) + 74px) 16px 20px;transform:translateX(-106%);transition:transform .25s ease;z-index:70;overflow:auto}
+  #app.drawer-open nav.toc{transform:none}
+  #app.drawer-open .backdrop{display:block;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:65}
+}
+
+/* sections */
+section{display:grid;gap:18px;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 80px)}
+.sh{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px}
+.num{flex:none;display:grid;place-items:center;width:46px;height:46px;border:1.5px solid var(--edge);border-radius:12px;background:var(--card);font:700 20px/1 var(--f-mono);color:var(--ink)}
+.num.complete{background:var(--ok-soft)}
+.sh h2{font-size:clamp(26px,4vw,36px);font-weight:700;line-height:1.08}
+.when{display:inline-flex;align-items:center;gap:6px;font:700 13px/1 var(--f-mono);color:var(--muted);padding:7px 11px;border:1.5px solid var(--line);border-radius:999px;background:var(--card)}
+.when .ni{width:15px;height:15px}
+.intro{max-width:66ch}
+
+/* steps */
+.step{position:relative;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:18px 20px;display:grid;gap:12px;min-width:0;transition:opacity .2s,border-color .2s}
+.step h3{font-size:21px;font-weight:600;line-height:1.25;display:flex;gap:11px;align-items:center}
+.step h3 .sn{font:700 14px/1 var(--f-mono);color:var(--muted)}
+.step.done{opacity:.62}
+.step.next{border-color:var(--accent);border-width:2px;padding:17px 19px}
+.step.next>h3::after{content:"Berikutnya";margin-left:auto;font:700 13px/1 var(--f-mono);letter-spacing:.04em;padding:7px 10px;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
+.ck{all:unset;cursor:pointer;flex:none;width:28px;height:28px;border:2px solid var(--edge);border-radius:8px;background:var(--bg);display:grid;place-items:center;transition:background .15s,transform .1s}
+.ck svg{width:18px;height:18px;fill:none;stroke:var(--ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:30;stroke-dashoffset:30;transition:stroke-dashoffset .25s ease}
+.ck:active{transform:scale(.9)}
+.ck:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.ck[aria-pressed="true"]{background:var(--ok-soft)}
+.ck[aria-pressed="true"] svg{stroke-dashoffset:0}
+.row{display:grid;grid-template-columns:130px minmax(0,1fr);gap:6px 16px;align-items:start}
+.lab{font:700 13px/1.7 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+@media (max-width:620px){ .row{grid-template-columns:minmax(0,1fr)} }
+
+/* code */
+.code{position:relative;background:var(--code-bg);color:var(--code-fg);border-radius:10px;min-width:0}
+.code pre{margin:0;padding:14px 16px;padding-right:92px;font:500 15px/1.65 var(--f-mono);white-space:pre-wrap;overflow-wrap:anywhere}
+.code .copy{all:unset;cursor:pointer;position:absolute;top:8px;right:8px;font:700 13px/1 var(--f-mono);padding:8px 11px;border-radius:7px;background:var(--code-fg);color:var(--code-bg)}
+.code .copy:hover{opacity:.88}
+.code .copy:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.ph{background:var(--ph-bg);color:var(--ph-fg);border-radius:4px;padding:0 4px;font-weight:700}
+.ph.filled{background:var(--ph-ok-bg)}
+p .ph,li .ph,td .ph{font:700 15px/1.5 var(--f-mono)}
+code.i{font:600 15px/1.4 var(--f-mono);background:var(--soft);padding:2px 6px;border-radius:6px;overflow-wrap:anywhere}
+.btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;padding:11px 16px;border:1.5px solid var(--edge);border-radius:10px;background:var(--card);font:700 15px/1.2 var(--f-body);color:var(--ink)}
+.btn:hover{background:var(--soft)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.btn.primary:hover{opacity:.9}
+.btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.plan{display:block;width:100%;min-height:440px;resize:vertical;background:var(--code-bg);color:var(--code-fg);border:1.5px solid var(--edge);border-radius:10px;padding:14px 16px;font:500 15px/1.65 var(--f-mono)}
+.plan:focus{outline:3px solid var(--accent);outline-offset:2px}
+.planbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin-top:10px}
+.planstat{font:700 14px/1.3 var(--f-mono);color:var(--muted)}
+.planstat.ok{color:var(--ok)}
+
+/* notes */
+.note{border:1.5px solid var(--edge);border-radius:14px;padding:14px 18px;display:grid;gap:4px}
+.note strong{font-family:var(--f-dpy);font-size:18px;font-weight:600}
+.note.warn{background:var(--warn-soft)} .note.tip{background:var(--ok-soft)} .note.info{background:var(--info-soft)} .note.hint{background:var(--tip-soft)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;border:1.5px solid var(--edge);border-radius:999px;padding:7px 15px;font-weight:600;background:var(--card);font-size:16px}
+ul.clean{margin:0;padding-left:22px;display:grid;gap:6px}
+ol.clean{margin:0;padding-left:24px;display:grid;gap:6px}
+
+/* pick */
+.pick{background:var(--card);border:1.5px solid var(--edge);border-radius:14px;padding:18px 20px;display:grid;gap:12px}
+.pick h3{font-size:21px;font-weight:600}
+.hpick{display:flex;flex-wrap:wrap;gap:10px}
+.hp-btn{all:unset;cursor:pointer;display:inline-flex;align-items:center;font:700 16px/1 var(--f-body);color:var(--ink);padding:12px 18px;border:1.5px solid var(--edge);border-radius:999px;background:var(--card)}
+.hp-btn:hover{background:var(--soft)}
+.hp-btn[aria-pressed="true"]{background:var(--ink);color:var(--card)}
+.hp-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* tri cards */
+.tri{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.tri>div{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:6px;align-content:start}
+.tri h3{font-size:20px;font-weight:600}
+
+/* tables */
+.tw{overflow-x:auto;border:1.5px solid var(--edge);border-radius:14px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:16px}
+th,td{text-align:left;vertical-align:top;padding:11px 14px;border-bottom:1.5px solid var(--soft)}
+th{font:700 13px/1.3 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;background:var(--soft)}
+tr:last-child td{border-bottom:0}
+td:first-child{font-weight:700}
+td.pt,th.pt{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr.total td{background:var(--soft);font-weight:700}
+
+details.dd{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px 16px}
+details.dd summary{cursor:pointer;font-weight:700}
+details.dd[open]{border-color:var(--edge)}
+details.dd[open] summary{margin-bottom:10px}
+details.dd .in{display:grid;gap:10px}
+.faq{display:grid;gap:10px}
+.gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.gloss div{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--card);display:grid;gap:4px;align-content:start}
+.gloss b{font:700 16px/1.3 var(--f-body)}
+.gloss span{font-size:15px;line-height:1.5;color:var(--muted)}
+footer{margin-top:20px;color:var(--muted);font-size:15px}
+
+/* switch */
+#app[data-os="win"] .only-mac{display:none!important}
+#app[data-os="mac"] .only-win{display:none!important}
+#app[data-h="freebuff"] .hv-opencode{display:none!important}
+#app[data-h="opencode"] .hv-freebuff{display:none!important}
+.fab{position:fixed;z-index:75;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:4px;padding:5px;border:1.5px solid var(--edge);border-radius:999px;background:var(--card);box-shadow:0 8px 22px rgba(0,0,0,.2);max-width:calc(100vw - 32px)}
+.fab-btn{all:unset;cursor:pointer;white-space:nowrap;padding:10px 13px;border-radius:999px;font:700 15px/1 var(--f-body);color:var(--ink)}
+.fab-btn:hover{background:var(--soft)}
+.fab-btn[aria-pressed="true"]{background:var(--ink);color:var(--card)}
+.fab-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.fab-sep{flex:none;width:2px;height:24px;margin:0 4px;background:var(--line);border-radius:2px}
+@media (max-width:520px){ .fab-btn{padding:9px 9px;font-size:14px} .fab-sep{margin:0 1px} .fab{left:max(16px,env(safe-area-inset-left,0px));justify-content:center} }
+
+/* rail */
+.rail{position:sticky;top:calc(env(safe-area-inset-top,0px) + 76px);display:grid;gap:16px}
+.rail-card{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:14px}
+.ringw{position:relative;width:132px;height:132px;justify-self:center}
+.ringw svg{width:132px;height:132px;transform:rotate(-90deg)}
+.ring-bg{fill:none;stroke:var(--soft);stroke-width:12}
+.ring-fg{fill:none;stroke:var(--accent);stroke-width:12;stroke-linecap:round;stroke-dasharray:326.73;stroke-dashoffset:326.73;transition:stroke-dashoffset .6s ease}
+.ring-txt{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:2px}
+.ring-txt b{font:700 30px/1 var(--f-dpy)}
+.ring-txt span{font:600 13px/1.3 var(--f-body);color:var(--muted)}
+.seclist{display:grid;gap:4px}
+.seclist a{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:5px 8px;align-items:center;text-decoration:none;color:var(--ink);font-size:14px;font-weight:600;padding:6px 8px;border-radius:10px}
+.seclist a:hover{background:var(--soft)}
+.seclist .cnt{font:700 13px/1 var(--f-mono);color:var(--muted)}
+.seclist .bar{grid-column:1 / -1;height:5px;border-radius:99px;background:var(--soft);overflow:hidden}
+.seclist .bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .5s ease}
+.help{background:var(--tip-soft)}
+.help b{font-family:var(--f-dpy);font-size:17px;font-weight:600}
+.help p{font-size:15px}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto!important} .tl,.caret{animation:none!important} .ring-fg,.seclist .bar i,.progbar,.ck svg{transition:none} }
+</style>
+
+<div id="app" data-os="win" data-h="freebuff">
+<div class="backdrop" id="backdrop"></div>
+<div class="wrap">
+
+<div class="appbar">
+  <button type="button" class="ab-btn" id="navToggle" aria-label="Buka daftar isi"><svg class="ni" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <span class="ab-title">Panduan Lab</span>
+  <div class="ab-right">
+    <span class="prog" id="progTxt" title="Langkah selesai">0 / 0</span>
+    <button type="button" class="ab-btn" id="resetBtn" aria-label="Reset semua centang"><svg class="ni" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 1 2.4 5.7"/><path d="M4 20v-5h5"/></svg><span id="resetTxt">Reset</span></button>
+  </div>
+  <i class="progbar" id="progBar"></i>
+</div>
+
+<header class="head">
+  <div class="head-copy">
+    <p class="eyebrow">Workshop Vibe Coding untuk UMKM</p>
+    <h1>Panduan Lab Vibe Coding UMKM</h1>
+    <p class="lead">Hari ini kamu membuat website satu halaman untuk sebuah usaha UMKM dengan bantuan AI. Hasilnya disimpan di GitHub dan ditayangkan di Vercel. Semua langkah memakai aplikasi biasa, tanpa mengetik perintah. Centang setiap langkah yang selesai, progresnya tersimpan di browser ini.</p>
+    <p class="muted" style="font-size:16px">Pilih Windows atau Mac dan alat AI di tombol kanan bawah. Petunjuk ikut menyesuaikan.</p>
+  </div>
+  <div class="term" aria-label="Gambaran alur kerja">
+    <div class="term-bar"><i></i><i></i><i></i><span>alur kerja</span></div>
+<pre class="term-body"><span class="tl l1"><span class="dim">1</span>  Minta AI membangun   <span class="dim">(<span class="hv-freebuff">Freebuff</span><span class="hv-opencode">OpenCode</span> Desktop)</span></span>
+<span class="tl l2"><span class="dim">2</span>  Commit "versi pertama" <span class="dim">(GitHub Desktop)</span></span>
+<span class="tl l3"><span class="dim">3</span>  Publish repository</span>
+<span class="tl l4"><span class="dim">4</span>  <span class="go">Website online di Vercel</span><span class="caret"></span></span></pre>
+  </div>
+</header>
+
+<div class="route" aria-label="Urutan kerja hari ini">
+  <a href="#s2"><b>2</b>Siapkan proyek</a><span class="sep">&rarr;</span>
+  <a href="#s3"><b>3</b>Rencanakan</a><span class="sep">&rarr;</span>
+  <a href="#s4"><b>4</b>Bangun dengan AI</a><span class="sep">&rarr;</span>
+  <a href="#s5"><b>5</b>GitHub</a><span class="sep">&rarr;</span>
+  <a href="#s6"><b>6</b>Vercel</a><span class="sep">&rarr;</span>
+  <a href="#s7"><b>7</b>Kumpulkan</a>
+</div>
+
+<details class="me">
+  <summary><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Isi data kamu <span class="muted">Teks kuning di panduan langsung terisi, tinggal salin.</span><span class="me-badge" id="meBadge">0 / 5 terisi</span><svg class="ni me-chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+  <div class="me-grid">
+    <label for="f-nama">Nama kamu<input id="f-nama" data-k="nama" autocomplete="off" placeholder="Contoh: Rina Wati"></label>
+    <label for="f-user">Username GitHub<input id="f-user" data-k="user" autocomplete="off" placeholder="Contoh: rinawati"><span class="hint">Terlihat di alamat profil github.com/username.</span></label>
+    <label for="f-usaha">Nama usaha<input id="f-usaha" data-k="usaha" autocomplete="off" placeholder="Contoh: Kue Bu Rina"></label>
+    <label for="f-folder">Nama folder proyek<input id="f-folder" data-k="folder" autocomplete="off" placeholder="Contoh: kue-bu-rina"><span class="hint">Huruf kecil tanpa spasi. Dipakai juga sebagai nama repo.</span></label>
+    <label for="f-vercel">Link Vercel<input id="f-vercel" data-k="vercel" autocomplete="off" inputmode="url" placeholder="Isi setelah deploy"><span class="hint">Berakhiran .vercel.app.</span></label>
+  </div>
+</details>
+
+<div class="grid">
+<nav class="toc" aria-label="Isi panduan" id="toc">
+  <a href="#s0"><b>0</b><span>Sebelum datang</span></a>
+  <a href="#s1"><b>1</b><span>Aturan dan pengaman</span></a>
+  <a href="#s2"><b>2</b><span>Siapkan proyek</span></a>
+  <a href="#s3"><b>3</b><span>Rencanakan</span></a>
+  <a href="#s4"><b>4</b><span>Bangun dengan AI</span></a>
+  <a href="#s5"><b>5</b><span>Simpan ke GitHub</span></a>
+  <a href="#s6"><b>6</b><span>Deploy ke Vercel</span></a>
+  <a href="#s7"><b>7</b><span>Kumpulkan dan nilai</span></a>
+  <a href="#s8"><b>8</b><span>Jika tersangkut</span></a>
+  <a href="#s9"><b>9</b><span>Istilah</span></a>
+</nav>
+
+<main>
+
+<!-- 0 -->
+<section id="s0">
+  <div class="sh"><span class="num">0</span><h2>Sebelum datang</h2><span class="when"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Malam sebelumnya, sekitar 30 menit</span></div>
+  <div class="note warn"><strong>Kerjakan bagian ini sebelum hari workshop</strong><p>Memasang aplikasi butuh unduhan yang cukup besar. Kalau ditunda ke hari H, waktu di kelas habis untuk instalasi.</p></div>
+  <div class="chips"><span class="chip">Laptop Windows atau Mac</span><span class="chip">Boleh memasang aplikasi</span><span class="chip">Koneksi internet</span><span class="chip">Charger</span></div>
+  <div class="pick">
+    <h3>Pilih alat AI kamu</h3>
+    <p>Alat AI adalah aplikasi yang menulis kode atas perintahmu. Pilih satu, petunjuk di panduan ini ikut berubah. Tombol yang sama ada di kanan bawah.</p>
+    <div class="hpick" role="group" aria-label="Pilih alat AI"><button type="button" class="hp-btn" data-h="freebuff" aria-pressed="true">Freebuff Desktop</button><button type="button" class="hp-btn" data-h="opencode" aria-pressed="false">OpenCode Desktop</button></div>
+    <p class="hv-freebuff"><b>Freebuff Desktop</b> gratis, tanpa API key dan tanpa kartu kredit. Biayanya ditutup iklan teks.</p>
+    <p class="hv-opencode"><b>OpenCode Desktop</b> bersifat open source dan menyediakan model gratis bawaan. Model gratis bisa dibatasi atau berganti sewaktu-waktu, dan kadang lebih lambat di jam ramai.</p>
+    <p class="muted" style="font-size:15px">Komputermu terdeteksi otomatis. Kalau salah, ganti Windows atau Mac di kanan bawah.</p>
+  </div>
+
+  <div class="step" data-id="0.1">
+    <h3><span class="sn">0.1</span>Buat akun GitHub</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Buka <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a>, daftar, lalu verifikasi emailmu.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Kamu bisa membuka github.com dalam keadaan login.</p></div>
+  </div>
+  <div class="step" data-id="0.2">
+    <h3><span class="sn">0.2</span>Buat akun Vercel</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Buka <a href="https://vercel.com/signup" target="_blank" rel="noopener">vercel.com/signup</a> dan pilih <b>Continue with GitHub</b>. Dengan begitu Vercel langsung terhubung ke repo kamu.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Dashboard Vercel terbuka.</p></div>
+  </div>
+  <div class="step" data-id="0.3">
+    <h3><span class="sn">0.3</span>Pasang GitHub Desktop dan login</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Unduh dari <a href="https://desktop.github.com" target="_blank" rel="noopener">desktop.github.com</a> dan pasang seperti aplikasi biasa. Buka aplikasinya, pilih <b>Sign in to GitHub.com</b>, lalu izinkan akses di browser.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>GitHub Desktop terbuka dan sudah menampilkan akun GitHub kamu.</p></div>
+  </div>
+  <div class="step" data-id="0.4">
+    <h3><span class="sn">0.4</span>Pasang aplikasi alat AI</h3>
+    <div class="hv-freebuff" style="display:grid;gap:12px">
+      <div class="row"><span class="lab">Langkah</span><p>Buka <a href="https://freebuff.com/desktop" target="_blank" rel="noopener">freebuff.com/desktop</a>, unduh versi untuk komputermu, lalu pasang seperti aplikasi biasa.</p></div>
+    </div>
+    <div class="hv-opencode" style="display:grid;gap:12px">
+      <div class="row"><span class="lab">Langkah</span><p>Buka <a href="https://opencode.ai/download" target="_blank" rel="noopener">opencode.ai/download</a> dan unduh aplikasi desktop untuk komputermu.</p></div>
+      <div class="only-win"><div class="row"><span class="lab">Windows</span><p>Jalankan file pemasang <code class="i">opencode-desktop-windows-x64.exe</code> yang terunduh.</p></div></div>
+      <div class="only-mac"><div class="row"><span class="lab">Mac</span><p>Pilih file <code class="i">.dmg</code> sesuai chip: Apple Silicon atau Intel. Cek di menu Apple, lalu <b>About This Mac</b>. Buka file .dmg dan pasang aplikasinya.</p></div></div>
+    </div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Aplikasinya terbuka dan menampilkan layar awal.</p></div>
+    <div class="row"><span class="lab">Kalau gagal</span><p>Muncul peringatan keamanan saat membuka aplikasi? Lihat bagian 8. Kalau tidak bisa jalan sama sekali, ganti alat AI lewat tombol kanan bawah.</p></div>
+  </div>
+</section>
+
+<!-- 1 -->
+<section id="s1">
+  <div class="sh"><span class="num">1</span><h2>Aturan dan pengaman</h2></div>
+  <p class="intro">Vibe coding artinya kamu menjelaskan apa yang diinginkan, dan AI yang menulis kodenya. Perananmu adalah pemilik ide dan pemeriksa hasil. Tiga kebiasaan ini menjaga pekerjaanmu tetap aman.</p>
+  <div class="tri">
+    <div><h3>Commit sering</h3><p>Simpan satu versi setiap kali satu fitur berhasil. Kalau AI merusak sesuatu, kamu bisa kembali ke versi sebelumnya.</p></div>
+    <div><h3>Rahasia jangan di repo</h3><p>Repo kamu publik, siapa saja bisa membacanya. Jangan simpan password, kunci API, atau data pelanggan sungguhan.</p></div>
+    <div><h3>Baca yang diubah AI</h3><p>Lihat file apa saja yang berubah sebelum commit. AI bisa salah, dan kamu yang bertanggung jawab atas hasilnya.</p></div>
+  </div>
+  <div class="note hint"><strong>Satu fitur, satu prompt</strong><p>Minta AI membangun satu bagian, periksa hasilnya, baru lanjut. Prompt yang terlalu besar menghasilkan website yang sulit diperiksa dan sulit diperbaiki.</p></div>
+  <div class="note info"><strong>Pakai usaha yang aman dipublikasikan</strong><p>Boleh usaha milikmu atau usaha rekaan. Nomor WhatsApp, foto, dan harga yang kamu pakai akan tampil di internet, jadi gunakan data contoh atau data yang memang boleh dilihat umum.</p></div>
+</section>
+
+<!-- 2 -->
+<section id="s2">
+  <div class="sh"><span class="num">2</span><h2>Siapkan proyek</h2><span class="when"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Sekitar 10 menit</span></div>
+  <div class="note info"><strong>Tampilan aplikasi bisa sedikit berbeda</strong><p>Nama tombol dan menu di aplikasi desktop bisa berubah mengikuti versinya. Fasilitator akan menunjukkan layar aslinya, jadi cari tombol yang artinya paling dekat dengan petunjuk di sini.</p></div>
+  <div class="step" data-id="2.1">
+    <h3><span class="sn">2.1</span>Buat folder proyek</h3>
+    <div class="only-win" style="display:grid;gap:12px">
+      <div class="row"><span class="lab">Langkah</span><p>Buka <b>File Explorer</b> dan masuk ke folder <b>Documents</b>. Klik kanan di area kosong, pilih <b>New &rarr; Folder</b>, lalu beri nama sesuai di bawah.</p></div>
+    </div>
+    <div class="only-mac" style="display:grid;gap:12px">
+      <div class="row"><span class="lab">Langkah</span><p>Buka <b>Finder</b> dan masuk ke folder <b>Documents</b>. Pilih menu <b>File &rarr; New Folder</b>, lalu beri nama sesuai di bawah.</p></div>
+    </div>
+    <div class="row"><span class="lab">Nama folder</span><div class="code"><pre><span class="ph" data-k="folder">[nama-folder]</span></pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Ada folder kosong dengan nama itu di Documents.</p></div>
+  </div>
+  <div class="step" data-id="2.2">
+    <h3><span class="sn">2.2</span>Buka alat AI dan pilih folder proyek</h3>
+    <div class="hv-freebuff" style="display:grid;gap:12px">
+      <div class="row"><span class="lab">Langkah</span><p>Buka Freebuff Desktop, lalu arahkan aplikasinya ke folder proyek yang baru kamu buat. Folder itu menjadi tempat semua file websitemu.</p></div>
+      <div class="row"><span class="lab">Model</span><p>Pilih model dari daftar model di aplikasi, atau biarkan pilihan bawaan.</p></div>
+    </div>
+    <div class="hv-opencode" style="display:grid;gap:12px">
+      <div class="row"><span class="lab">Langkah</span><p>Buka OpenCode Desktop, lalu buka folder proyek yang baru kamu buat sebagai project. Folder itu menjadi tempat semua file websitemu.</p></div>
+      <div class="row"><span class="lab">Model</span><p>Pilih model yang berlabel free di daftar model aplikasi.</p></div>
+    </div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Layar chat terbuka. Ketik <b>halo</b>, AI akan menjawab. Kamu juga bisa mengetik "tampilkan daftar file di folder ini" untuk memastikan AI bekerja di folder yang benar.</p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="s3">
+  <div class="sh"><span class="num">3</span><h2>Rencanakan</h2><span class="when"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Sekitar 40 menit</span></div>
+  <p class="intro">Bagian ini paling menentukan. Rencana yang jelas menghasilkan website yang jelas, dan rencana yang kabur membuat AI menebak. Tulis rencanamu sendiri sebelum meminta AI mengerjakan apa pun.</p>
+  <div class="step" data-id="3.1">
+    <h3><span class="sn">3.1</span>Jawab lima pertanyaan</h3>
+    <ol class="clean">
+      <li>Usaha apa, dan siapa pelanggannya?</li>
+      <li>Apa yang dicari pelanggan di website?</li>
+      <li>Satu tindakan utama apa? Misalnya pesan lewat WhatsApp.</li>
+      <li>Info apa yang harus tampil? Produk, harga, jam buka.</li>
+      <li>Apa yang belum perlu dibuat? Login, pembayaran, database.</li>
+    </ol>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Kamu bisa menjawab kelimanya dengan satu atau dua kalimat, tanpa istilah teknis.</p></div>
+  </div>
+  <div class="step" data-id="3.2">
+    <h3><span class="sn">3.2</span>Tulis rencanamu di kotak ini</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Ganti semua teks di dalam tanda kurung siku dengan isi usahamu. Tulisanmu tersimpan otomatis di browser ini.</p></div>
+    <div>
+      <textarea id="plan" class="plan" spellcheck="false" aria-label="Isi RENCANA.md"></textarea>
+      <div class="planbar">
+        <button type="button" class="btn primary" id="planCopy">Salin dengan kalimat pembuka</button>
+        <button type="button" class="btn" id="planReset">Kembalikan template</button>
+        <span class="planstat" id="planStat" aria-live="polite"></span>
+      </div>
+    </div>
+    <div class="row"><span class="lab">Simpan jadi file</span><p>Tempel hasil salinan ke chat alat AI dan kirim. Kalimat pembuka yang ikut tersalin meminta AI membuat file <code class="i">RENCANA.md</code> di folder proyek.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>AI menyatakan file sudah dibuat, dan <code class="i">RENCANA.md</code> muncul di folder proyek di File Explorer atau Finder.</p></div>
+    <details class="dd"><summary>Lihat contoh isi (usaha fiktif)</summary>
+      <div class="in">
+        <p><b>Konteks:</b> Saya pemilik Kue Bu Rina, toko kue rumahan. Pelanggan membuka website dari HP.</p>
+        <p><b>Tujuan:</b> Website satu halaman agar pelanggan bisa melihat produk dan memesan lewat WhatsApp.</p>
+        <p><b>Fitur:</b> (1) Bagian atas: nama toko dan tombol "Pesan via WhatsApp". (2) Daftar 6 produk dengan foto, nama, dan harga. (3) Tombol "Pesan" di tiap produk membuka WhatsApp dengan pesan otomatis. (4) Bagian bawah: alamat dan jam buka.</p>
+        <p><b>Batasan:</b> Tampilan HP dulu, warna krem dan cokelat. Tanpa login dan tanpa database. Data produk disimpan di satu file agar mudah diubah.</p>
+        <p><b>Cek hasil:</b> Setelah selesai, jelaskan cara membuka website di komputer saya.</p>
+      </div>
+    </details>
+  </div>
+  <div class="step" data-id="3.3">
+    <h3><span class="sn">3.3</span>Periksa rencanamu</h3>
+    <ul class="clean">
+      <li>Kelima bagian terisi dan tidak ada tanda kurung siku yang tersisa.</li>
+      <li>Fitur ditulis spesifik. "Daftar 6 produk dengan foto, nama, harga" lebih baik daripada "tampilkan produk".</li>
+      <li>Ada satu tindakan utama yang jelas untuk pelanggan.</li>
+      <li>Batasan menyebut apa yang belum dibuat.</li>
+    </ul>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Temanmu bisa membaca rencana ini dan menebak website seperti apa yang akan jadi.</p></div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section id="s4">
+  <div class="sh"><span class="num">4</span><h2>Bangun dengan AI</h2><span class="when"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Sekitar 60 menit</span></div>
+  <p class="intro">Polanya berulang: minta rencana, setujui, bangun satu fitur, periksa di browser, perbaiki atau lanjut. Jangan meminta semuanya sekaligus. Tempel setiap prompt di bawah ke chat alat AI.</p>
+  <div class="step" data-id="4.1">
+    <h3><span class="sn">4.1</span>Minta AI menjelaskan rencananya dulu</h3>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Baca file RENCANA.md di folder ini. Jelaskan dulu rencanamu dengan bahasa sederhana, jangan ubah file apa pun. Setelah saya setuju, kamu bangun satu fitur pertama saja.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>AI menjelaskan rencananya, dan isinya sesuai dengan RENCANA.md. Kalau ada yang meleset, perbaiki rencanamu dan minta AI membuat ulang file RENCANA.md.</p></div>
+  </div>
+  <div class="step" data-id="4.2">
+    <h3><span class="sn">4.2</span>Setujui, lalu bangun fitur pertama</h3>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Saya setuju. Bangun fitur nomor 1 dari RENCANA.md saja. Simpan di index.html di folder utama. Setelah selesai, jelaskan cara membuka hasilnya di komputer saya.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>File <code class="i">index.html</code> muncul di folder proyek.</p></div>
+  </div>
+  <div class="step" data-id="4.3">
+    <h3><span class="sn">4.3</span>Buka hasilnya di browser</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Buka folder proyek di <span class="only-win">File Explorer</span><span class="only-mac">Finder</span> dan klik dua kali file <code class="i">index.html</code>. Halamanmu terbuka di browser.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Browser menampilkan halamanmu. Kecilkan lebar jendela untuk melihat tampilan seperti di HP.</p></div>
+  </div>
+  <div class="step" data-id="4.4">
+    <h3><span class="sn">4.4</span>Perbaiki dengan prompt kecil dan spesifik</h3>
+    <div class="tw"><table>
+      <thead><tr><th>Kurang jelas</th><th>Lebih jelas</th></tr></thead>
+      <tbody>
+        <tr><td>Bagus-in dong.</td><td>Ubah warna tombol jadi hijau dan perbesar tulisan harga.</td></tr>
+        <tr><td>Kok jelek di HP.</td><td>Di layar HP, foto produk keluar dari kotak. Buat foto selebar kartu.</td></tr>
+        <tr><td>Tambah fitur lain.</td><td>Tambahkan produk ke-7 bernama Brownies dengan harga Rp25.000.</td></tr>
+        <tr><td>Error!</td><td>Muncul pesan error ini: [tempel pesan error]. Tolong perbaiki.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="row"><span class="lab">Catat</span><p>Setelah setiap prompt perbaikan, minta AI mencatatnya. Minimal 3 catatan, karena ini ikut dinilai.</p></div>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Tambahkan catatan ke file PROMPT-LOG.md (buat file jika belum ada). Isinya: prompt perbaikan saya yang terakhir, dan hasilnya (berhasil atau kurang tepat, beserta alasannya).</pre></div></div>
+  </div>
+  <div class="step" data-id="4.5">
+    <h3><span class="sn">4.5</span>Ulangi untuk fitur berikutnya</h3>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Lanjut ke fitur nomor 2 dari RENCANA.md. Jangan ubah fitur yang sudah jadi.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Semua fitur di RENCANA.md sudah tampil di browser dan <code class="i">PROMPT-LOG.md</code> berisi minimal 3 catatan.</p></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section id="s5">
+  <div class="sh"><span class="num">5</span><h2>Simpan ke GitHub</h2><span class="when"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Sekitar 20 menit</span></div>
+  <div class="note info"><strong>Semua langkah di GitHub Desktop</strong><p>Kamu cukup mengklik tombol, tanpa mengetik perintah. Nama tombol bisa sedikit berbeda di versi aplikasimu.</p></div>
+  <div class="step" data-id="5.1">
+    <h3><span class="sn">5.1</span>Tambahkan folder proyek</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Di GitHub Desktop pilih menu <b>File &rarr; Add local repository</b>, lalu pilih folder proyekmu.</p></div>
+    <div class="row"><span class="lab">Jika muncul pesan</span><p>Kalau ada pesan bahwa folder itu belum berupa repository, klik tautan <b>create a repository</b>, lalu klik <b>Create repository</b>.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Daftar file proyekmu muncul di tab <b>Changes</b>, termasuk index.html dan RENCANA.md.</p></div>
+  </div>
+  <div class="step" data-id="5.2">
+    <h3><span class="sn">5.2</span>Simpan commit pertama</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Pastikan semua file di daftar Changes tercentang. Di kotak <b>Summary</b> di kiri bawah, tulis:</p></div>
+    <div class="code"><pre>versi pertama</pre></div>
+    <div class="row"><span class="lab">Lalu</span><p>Klik tombol biru <b>Commit to main</b>. Nama cabangnya bisa saja <b>master</b>, tidak masalah.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Daftar Changes menjadi kosong, dan commit "versi pertama" tampil di tab <b>History</b>.</p></div>
+  </div>
+  <div class="step" data-id="5.3">
+    <h3><span class="sn">5.3</span>Publish repository ke GitHub</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Klik tombol <b>Publish repository</b> di bagian atas. Isi <b>Name</b> dengan <span class="ph" data-k="folder">[nama-folder]</span>.</p></div>
+    <div class="row"><span class="lab">Penting</span><p>Hilangkan centang <b>Keep this code private</b> supaya repo berstatus publik, lalu klik <b>Publish repository</b>.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Alamat <code class="i">github.com/<span class="ph" data-k="user">[username GitHub]</span>/<span class="ph" data-k="folder">[nama-folder]</span></code> terbuka di browser dan menampilkan semua filemu. Kamu juga bisa memilih menu <b>Repository &rarr; View on GitHub</b>.</p></div>
+  </div>
+  <div class="step" data-id="5.4">
+    <h3><span class="sn">5.4</span>Tambah README, lalu commit lagi</h3>
+    <div class="row"><span class="lab">Prompt ke AI</span><div class="code"><pre>Buat README.md singkat yang menjelaskan usaha <span class="ph" data-k="usaha">[nama usaha]</span> dan cara membuka website ini.</pre></div></div>
+    <div class="row"><span class="lab">Lalu</span><p>Kembali ke GitHub Desktop. File baru muncul di tab Changes. Tulis <b>tambah README</b> di kotak Summary, klik <b>Commit to main</b>, lalu klik <b>Push origin</b> di bagian atas.</p></div>
+    <div class="row"><span class="lab">Kebiasaan</span><p>Setiap kali satu fitur atau perbaikan selesai, ulangi commit dan Push origin dengan Summary yang berbeda. Minimal 3 commit tercatat sebelum dikumpulkan.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Halaman repo di GitHub menampilkan jumlah commit minimal 3, dan README tampil di bawah daftar file.</p></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section id="s6">
+  <div class="sh"><span class="num">6</span><h2>Deploy ke Vercel</h2><span class="when"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Sekitar 15 menit</span></div>
+  <p class="intro">Tampilan Vercel bisa sedikit berbeda dari petunjuk ini. Kalau nama tombolnya tidak sama, cari yang artinya paling dekat.</p>
+  <div class="step" data-id="6.1">
+    <h3><span class="sn">6.1</span>Mulai project baru</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Masuk ke <a href="https://vercel.com" target="_blank" rel="noopener">vercel.com</a> dengan akun GitHub, klik <b>Add New</b>, lalu pilih <b>Project</b>.</p></div>
+  </div>
+  <div class="step" data-id="6.2">
+    <h3><span class="sn">6.2</span>Impor repo kamu</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Cari repo <span class="ph" data-k="folder">[nama-folder]</span> di daftar dan klik <b>Import</b>.</p></div>
+    <div class="row"><span class="lab">Kalau gagal</span><p>Repo tidak muncul: klik <b>Adjust GitHub App Permissions</b>, izinkan akses ke repo itu, lalu kembali.</p></div>
+  </div>
+  <div class="step" data-id="6.3">
+    <h3><span class="sn">6.3</span>Deploy</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Biarkan semua pengaturan bawaan dan klik <b>Deploy</b>. Tunggu sampai prosesnya selesai.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Muncul halaman keberhasilan dengan tampilan websitemu dan alamat berakhiran <code class="i">.vercel.app</code>.</p></div>
+  </div>
+  <div class="step" data-id="6.4">
+    <h3><span class="sn">6.4</span>Cek di HP dan simpan linknya</h3>
+    <div class="row"><span class="lab">Langkah</span><p>Buka link itu di HP dan pastikan tampilannya nyaman dibaca. Tempel juga linknya ke kolom <b>Link Vercel</b> di panel "Isi data kamu" di atas.</p></div>
+    <div class="row"><span class="lab">Setelahnya</span><p>Setiap kali kamu menekan <b>Push origin</b> di GitHub Desktop, Vercel memperbarui website secara otomatis.</p></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section id="s7">
+  <div class="sh"><span class="num">7</span><h2>Kumpulkan dan nilai</h2><span class="when"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Sekitar 15 menit</span></div>
+  <div class="step" data-id="7.1">
+    <h3><span class="sn">7.1</span>Periksa sebelum mengumpulkan</h3>
+    <ul class="clean">
+      <li>Repo di GitHub berstatus publik dan punya minimal 3 commit.</li>
+      <li>RENCANA.md, PROMPT-LOG.md, dan README.md ada di dalam repo.</li>
+      <li>Link Vercel bisa dibuka di jendela penyamaran (incognito) dan di HP.</li>
+      <li>Tidak ada password atau kunci rahasia di dalam file apa pun.</li>
+    </ul>
+  </div>
+  <div class="step" data-id="7.2">
+    <h3><span class="sn">7.2</span>Salin ringkasan dan kirim</h3>
+    <div class="row"><span class="lab">Ringkasan</span><div class="code"><pre>Nama: <span class="ph" data-k="nama">[nama kamu]</span>
+Usaha: <span class="ph" data-k="usaha">[nama usaha]</span>
+Repo GitHub: https://github.com/<span class="ph" data-k="user">[username GitHub]</span>/<span class="ph" data-k="folder">[nama-folder]</span>
+Website: <span class="ph" data-k="vercel">[link Vercel]</span></pre></div></div>
+    <div class="row"><span class="lab">Kirim</span><p>Kumpulkan sebelum <span class="ph">[jam]</span> lewat <span class="ph">[kanal pengumpulan]</span>.</p></div>
+  </div>
+  <div class="step" data-id="7.3">
+    <h3><span class="sn">7.3</span>Siapkan demo 2 menit</h3>
+    <p>Ceritakan tiga hal: usahamu dan siapa pelanggannya, satu fitur yang paling kamu suka, dan satu prompt perbaikan yang paling membantu dari PROMPT-LOG.md.</p>
+  </div>
+  <h3 style="font-size:22px;font-weight:600;margin-top:6px">Cara penilaian</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Kriteria</th><th class="pt">Poin</th><th>Yang dilihat</th></tr></thead>
+    <tbody>
+      <tr><td>Rencana prompt</td><td class="pt">30</td><td>RENCANA.md memuat lima bagian, spesifik, mudah dipahami</td></tr>
+      <tr><td>Hasil sesuai rencana</td><td class="pt">25</td><td>Fitur di rencana benar-benar berjalan</td></tr>
+      <tr><td>Repo GitHub</td><td class="pt">15</td><td>Publik, minimal 3 commit, ada README singkat</td></tr>
+      <tr><td>Deploy Vercel</td><td class="pt">15</td><td>Link online dan nyaman dibuka di HP</td></tr>
+      <tr><td>Proses perbaikan</td><td class="pt">10</td><td>PROMPT-LOG.md berisi minimal 3 catatan prompt perbaikan</td></tr>
+      <tr><td>Demo 2 menit</td><td class="pt">5</td><td>Bisa menjelaskan ide dan hasilnya</td></tr>
+      <tr class="total"><td>Total</td><td class="pt">100</td><td></td></tr>
+    </tbody>
+  </table></div>
+  <div class="note tip"><strong>Yang dinilai</strong><p>Kejelasan rencana dan proses kerjamu, bukan kemampuan menulis kode. Kode ditulis oleh AI, jadi bobot terbesar ada pada bagian yang kamu kerjakan sendiri.</p></div>
+</section>
+
+<!-- 8 -->
+<section id="s8">
+  <div class="sh"><span class="num">8</span><h2>Jika tersangkut</h2></div>
+  <p class="intro">Kalau AI memberi pesan error atau hasilnya salah, salin pesannya persis seperti yang tertulis dan tempel ke AI, itu petunjuk terbaik baginya. Kalau masih buntu lebih dari 10 menit, angkat tangan dan panggil fasilitator.</p>
+  <div class="faq">
+    <details class="dd only-win"><summary>"Windows protected your PC" saat membuka pemasang</summary><div class="in"><p>Ini peringatan standar Windows untuk aplikasi baru. Kalau pemasang itu kamu unduh dari situs resmi yang disebut di panduan, klik <b>More info</b>, lalu <b>Run anyway</b>.</p></div></details>
+    <details class="dd only-mac"><summary>Aplikasi "tidak bisa dibuka karena dari developer yang tidak dikenal" (Mac)</summary><div class="in"><p>Kalau aplikasi itu kamu unduh dari situs resmi yang disebut di panduan, klik kanan ikon aplikasinya di folder Applications, pilih <b>Open</b>, lalu klik <b>Open</b> sekali lagi.</p></div></details>
+    <details class="dd"><summary>Aplikasi alat AI tidak mau terbuka atau tidak bisa dipakai</summary><div class="in"><p>Tutup aplikasinya dan buka lagi. Kalau masih gagal, panggil fasilitator. Cadangannya, ganti ke <span class="hv-freebuff">OpenCode Desktop</span><span class="hv-opencode">Freebuff Desktop</span> lewat tombol kanan bawah dan pasang yang itu.</p></div></details>
+    <details class="dd"><summary>AI tidak melihat file di folder proyekku</summary><div class="in"><p>Pastikan folder proyek sudah dipilih di aplikasi alat AI, bukan folder lain. Lalu minta AI memeriksanya:</p><div class="code"><pre>Tampilkan daftar file di folder kerja kamu sekarang.</pre></div></div></details>
+    <details class="dd"><summary>Tombol Commit di GitHub Desktop tidak bisa diklik</summary><div class="in"><p>Pastikan kotak Summary sudah terisi dan minimal satu file di daftar Changes tercentang.</p></div></details>
+    <details class="dd"><summary>Tombol Push origin tidak muncul, atau yang ada hanya Publish repository</summary><div class="in"><p>Repo kamu belum dipublikasikan. Klik <b>Publish repository</b> dulu (langkah 5.3). Setelah itu, tombol Push origin muncul tiap ada commit baru.</p></div></details>
+    <details class="dd"><summary>Repo terlanjur berstatus private</summary><div class="in"><p>Buka repo di github.com, pilih <b>Settings</b>, gulir ke bagian <b>Danger Zone</b>, klik <b>Change visibility</b>, lalu pilih public.</p></div></details>
+    <details class="dd"><summary>Repo tidak muncul di Vercel</summary><div class="in"><p>Di halaman Import klik <b>Adjust GitHub App Permissions</b>, izinkan akses ke repo kamu, lalu muat ulang halaman.</p></div></details>
+    <details class="dd"><summary>Website di Vercel menampilkan 404</summary><div class="in"><p>Biasanya file halamanmu bukan bernama <code class="i">index.html</code> atau tidak berada di folder utama. Minta AI memindahkannya, lalu commit dan Push origin lagi di GitHub Desktop.</p><div class="code"><pre>Pindahkan halaman website ke index.html di folder utama.</pre></div></div></details>
+    <details class="dd"><summary>AI merusak hasil yang tadinya sudah bagus</summary><div class="in"><p>Di GitHub Desktop, buka tab Changes, klik kanan salah satu file yang berubah, lalu pilih <b>Discard Changes</b> (atau <b>Discard All Changes</b> untuk semuanya). Ini mengembalikan file ke commit terakhir dan membuang perubahan yang belum di-commit, jadi pastikan kamu memang ingin membatalkannya.</p><p>Karena itu kamu perlu commit setiap kali satu fitur berhasil.</p></div></details>
+    <details class="dd"><summary>Tampilan di HP berantakan</summary><div class="in"><div class="code"><pre>Di layar HP lebar 400px, bagian [sebutkan bagian yang rusak] keluar dari layar. Perbaiki agar rapi di HP tanpa mengubah bagian lain.</pre></div></div></details>
+  </div>
+</section>
+
+<!-- 9 -->
+<section id="s9">
+  <div class="sh"><span class="num">9</span><h2>Istilah</h2></div>
+  <div class="gloss">
+    <div><b>Prompt</b><span>Perintah tertulis yang kamu berikan ke AI.</span></div>
+    <div><b>Alat AI</b><span>Aplikasi yang menulis kode atas perintahmu, di sini Freebuff Desktop atau OpenCode Desktop.</span></div>
+    <div><b>Folder proyek</b><span>Satu folder berisi semua file website kamu.</span></div>
+    <div><b>README</b><span>File yang menjelaskan isi proyek dan cara membukanya.</span></div>
+    <div><b>Git</b><span>Teknologi yang mencatat riwayat perubahan file.</span></div>
+    <div><b>GitHub Desktop</b><span>Aplikasi untuk menyimpan dan mengirim proyek ke GitHub tanpa mengetik perintah.</span></div>
+    <div><b>Commit</b><span>Satu titik simpan di riwayat proyek, lengkap dengan pesan singkat.</span></div>
+    <div><b>GitHub</b><span>Situs tempat menyimpan proyek secara online.</span></div>
+    <div><b>Repo</b><span>Singkatan repository, yaitu proyekmu di GitHub.</span></div>
+    <div><b>Push</b><span>Mengirim commit dari komputer ke GitHub, lewat tombol Push origin.</span></div>
+    <div><b>Vercel</b><span>Layanan yang menayangkan website dari repo GitHub.</span></div>
+    <div><b>Deploy</b><span>Menayangkan website agar bisa dibuka lewat internet.</span></div>
+  </div>
+  <footer>Panduan Lab Vibe Coding UMKM. Progres dan data yang kamu isi hanya tersimpan di browser ini.</footer>
+</section>
+
+</main>
+
+<aside class="rail" aria-label="Progres kamu">
+  <div class="rail-card">
+    <div class="ringw"><svg viewBox="0 0 136 136" aria-hidden="true"><circle class="ring-bg" cx="68" cy="68" r="52"/><circle class="ring-fg" id="ringFg" cx="68" cy="68" r="52"/></svg><div class="ring-txt"><b id="ringPct">0%</b><span id="ringCnt">0 dari 0</span></div></div>
+    <div class="seclist" id="seclist"></div>
+  </div>
+  <div class="rail-card help"><b>Tersangkut?</b><p>Tempel pesan error apa adanya ke AI. Masih buntu, lihat bagian 8 atau angkat tangan.</p></div>
+</aside>
+</div>
+
+</div>
+
+<div class="fab" role="group" aria-label="Pilihan komputer dan alat AI">
+  <button type="button" class="fab-btn" data-os="win" aria-pressed="true">Windows</button>
+  <button type="button" class="fab-btn" data-os="mac" aria-pressed="false">Mac</button>
+  <span class="fab-sep" aria-hidden="true"></span>
+  <button type="button" class="fab-btn" data-h="freebuff" aria-pressed="true">Freebuff</button>
+  <button type="button" class="fab-btn" data-h="opencode" aria-pressed="false">OpenCode</button>
+</div>
+</div>
+
+<script>
+(function(){
+  var app=document.getElementById('app');
+  function lsGet(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function load(k,d){try{var v=JSON.parse(lsGet(k));return (v&&typeof v==='object')?v:d}catch(e){return d}}
+  var checks=load('vcu-checks',{}), me=load('vcu-me',{});
+  var os=lsGet('vcu-os'); if(os!=='win'&&os!=='mac'){os=/Mac/.test(navigator.userAgent)?'mac':'win'}
+  var h=lsGet('vcu-h'); if(h!=='freebuff'&&h!=='opencode'){h='freebuff'}
+  app.setAttribute('data-os',os); app.setAttribute('data-h',h);
+
+  /* os + alat switches */
+  function syncSwitch(){
+    [].forEach.call(document.querySelectorAll('button[data-os]'),function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-os')===os)) });
+    [].forEach.call(document.querySelectorAll('button[data-h]'),function(b){ b.setAttribute('aria-pressed',String(b.getAttribute('data-h')===h)) });
+  }
+  [].forEach.call(document.querySelectorAll('button[data-os]'),function(b){b.addEventListener('click',function(){os=b.getAttribute('data-os');app.setAttribute('data-os',os);lsSet('vcu-os',os);syncSwitch()})});
+  [].forEach.call(document.querySelectorAll('button[data-h]'),function(b){b.addEventListener('click',function(){h=b.getAttribute('data-h');app.setAttribute('data-h',h);lsSet('vcu-h',h);syncSwitch()})});
+  syncSwitch();
+
+  /* copy */
+  function flash(b,t,back){b.textContent=t;clearTimeout(b._t);b._t=setTimeout(function(){b.textContent=back},1600)}
+  function copyText(t,sel,b,back){
+    var fb=function(){try{sel();flash(b,'Pilih, lalu salin',back)}catch(e){}};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){flash(b,'Tersalin',back)},fb)}else{fb()}
+  }
+  [].forEach.call(document.querySelectorAll('.code'),function(c){
+    var b=document.createElement('button');b.type='button';b.className='copy';b.textContent='Salin';c.appendChild(b);
+    b.addEventListener('click',function(){
+      var pre=c.querySelector('pre');
+      copyText(pre.innerText.replace(/\s+$/,''),function(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r)},b,'Salin');
+    });
+  });
+
+  /* data kamu */
+  var phs=[].slice.call(document.querySelectorAll('.ph[data-k]'));
+  phs.forEach(function(p){p.setAttribute('data-d',p.textContent)});
+  var inputs=[].slice.call(document.querySelectorAll('.me input[data-k]'));
+  function clean(k,v){
+    if(k==='folder'){return v.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9._-]/g,'')}
+    if(k==='user'){return v.replace(/\s+/g,'')}
+    return v;
+  }
+  function renderMe(){
+    var n=0;
+    phs.forEach(function(p){var v=(me[p.getAttribute('data-k')]||'').trim();p.textContent=v||p.getAttribute('data-d');p.classList.toggle('filled',!!v)});
+    inputs.forEach(function(i){if((me[i.getAttribute('data-k')]||'').trim())n++});
+    var bd=document.getElementById('meBadge');bd.textContent=n+' / '+inputs.length+' terisi';bd.classList.toggle('full',n===inputs.length);
+  }
+  inputs.forEach(function(i){
+    var k=i.getAttribute('data-k');i.value=me[k]||'';
+    i.addEventListener('input',function(){var v=clean(k,i.value);if(v!==i.value)i.value=v;me[k]=v;lsSet('vcu-me',JSON.stringify(me));renderMe()});
+  });
+  renderMe();
+
+  /* rencana editor */
+  var plan=document.getElementById('plan'),planStat=document.getElementById('planStat');
+  var PREFIX='Buat file bernama RENCANA.md di folder proyek ini. Isinya persis seperti teks di bawah, tanpa diubah:\n\n';
+  function planDefault(){
+    var u=(me.usaha||'').trim()||'[nama usaha]';
+    return ['# Rencana Prompt: '+u,'',
+      '## KONTEKS','Saya pemilik '+u+', [jenis usaha]. Pelanggan membuka website dari [HP / komputer].','',
+      '## TUJUAN','Website satu halaman agar pelanggan bisa [melihat apa] dan [melakukan apa].','',
+      '## FITUR','1. Bagian atas: [nama usaha dan tombol utama]','2. [isi bagian kedua]','3. [isi bagian ketiga]','4. Bagian bawah: [alamat dan jam buka]','',
+      '## BATASAN','- Tampilan HP dulu. Warna [pilih warna].','- Tanpa login dan tanpa database.','- Hanya HTML, CSS, dan JavaScript sederhana.','- Simpan hasil di file index.html di folder utama.','',
+      '## CEK HASIL','Setelah selesai, jelaskan cara membuka website di komputer saya.'].join('\n');
+  }
+  function planState(){
+    var left=(plan.value.match(/\[[^\]\n]+\]/g)||[]).length;
+    planStat.textContent=left?('Masih ada '+left+' bagian [ ] yang perlu diisi'):'Semua bagian sudah terisi';
+    planStat.classList.toggle('ok',!left);
+  }
+  var savedPlan=lsGet('vcu-plan');
+  plan.value=(savedPlan&&savedPlan.length)?savedPlan:planDefault();
+  planState();
+  plan.addEventListener('input',function(){lsSet('vcu-plan',plan.value);planState()});
+  var pc=document.getElementById('planCopy');
+  pc.addEventListener('click',function(){copyText(PREFIX+plan.value,function(){plan.focus();plan.select()},pc,'Salin dengan kalimat pembuka')});
+  var pr=document.getElementById('planReset'),prt=null;
+  pr.addEventListener('click',function(){
+    if(pr.getAttribute('data-arm')==='1'){
+      plan.value=planDefault();lsSet('vcu-plan',plan.value);planState();pr.removeAttribute('data-arm');pr.textContent='Kembalikan template';clearTimeout(prt);
+    }else{
+      pr.setAttribute('data-arm','1');pr.textContent='Tulisanmu akan hilang. Klik lagi';
+      prt=setTimeout(function(){pr.removeAttribute('data-arm');pr.textContent='Kembalikan template'},3000);
+    }
+  });
+
+  /* steps */
+  var steps=[].slice.call(document.querySelectorAll('.step[data-id]'));
+  steps.forEach(function(s){
+    var h3=s.querySelector('h3');
+    var b=document.createElement('button');b.type='button';b.className='ck';b.setAttribute('aria-pressed','false');
+    b.setAttribute('aria-label','Tandai selesai: '+h3.textContent.trim());
+    b.innerHTML='<svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>';
+    h3.insertBefore(b,h3.firstChild);
+    b.addEventListener('click',function(){var id=s.getAttribute('data-id');if(checks[id]){delete checks[id]}else{checks[id]=1}lsSet('vcu-checks',JSON.stringify(checks));render()});
+  });
+  var secs=[].slice.call(document.querySelectorAll('main section'));
+  var list=document.getElementById('seclist');
+  var secInfo=[];
+  secs.forEach(function(sec){
+    var n=sec.querySelectorAll('.step[data-id]').length;
+    if(!n)return;
+    var a=document.createElement('a');a.href='#'+sec.id;
+    var name=sec.querySelector('h2').textContent;
+    a.innerHTML='<span></span><span class="cnt"></span><span class="bar"><i></i></span>';
+    a.firstChild.textContent=name;list.appendChild(a);
+    secInfo.push({sec:sec,a:a,n:n});
+  });
+  var toc=document.getElementById('toc');
+  [].forEach.call(toc.querySelectorAll('a'),function(a){
+    var t=document.createElementNS('http://www.w3.org/2000/svg','svg');t.setAttribute('class','tick');t.setAttribute('viewBox','0 0 24 24');
+    t.innerHTML='<path d="M5 12l5 5 9-10"/>';a.appendChild(t);
+  });
+  function render(){
+    var total=steps.length,done=0,nextSet=false;
+    steps.forEach(function(s){
+      var d=!!checks[s.getAttribute('data-id')];if(d)done++;
+      s.querySelector('.ck').setAttribute('aria-pressed',String(d));
+      s.classList.toggle('done',d);
+      var nx=!d&&!nextSet;if(nx)nextSet=true;s.classList.toggle('next',nx);
+    });
+    var pct=total?Math.round(done/total*100):0;
+    document.getElementById('progTxt').textContent=done+' / '+total;
+    document.getElementById('progBar').style.width=pct+'%';
+    document.getElementById('ringPct').textContent=pct+'%';
+    document.getElementById('ringCnt').textContent=done+' dari '+total;
+    document.getElementById('ringFg').style.strokeDashoffset=String(326.73*(1-pct/100));
+    secInfo.forEach(function(si){
+      var c=0;[].forEach.call(si.sec.querySelectorAll('.step[data-id]'),function(s){if(checks[s.getAttribute('data-id')])c++});
+      si.a.querySelector('.cnt').textContent=c+'/'+si.n;
+      si.a.querySelector('.bar i').style.width=(c/si.n*100)+'%';
+      var full=c===si.n;
+      si.sec.querySelector('.num').classList.toggle('complete',full);
+      var link=toc.querySelector('a[href="#'+si.sec.id+'"]');if(link)link.classList.toggle('complete',full);
+    });
+  }
+  render();
+
+  /* reset with in-page confirmation */
+  var rb=document.getElementById('resetBtn'),rt=document.getElementById('resetTxt'),rto=null;
+  rb.addEventListener('click',function(){
+    if(rb.getAttribute('data-arm')==='1'){
+      checks={};lsSet('vcu-checks','{}');render();rb.removeAttribute('data-arm');rt.textContent='Reset';clearTimeout(rto);
+    }else{
+      rb.setAttribute('data-arm','1');rt.textContent='Klik lagi untuk reset';
+      rto=setTimeout(function(){rb.removeAttribute('data-arm');rt.textContent='Reset'},3000);
+    }
+  });
+
+  /* chapter nav: active section + mobile drawer */
+  var links=[].slice.call(toc.querySelectorAll('a'));
+  var ticking=false;
+  function onScroll(){
+    if(ticking)return;ticking=true;
+    requestAnimationFrame(function(){
+      var cur=secs[0].id;
+      secs.forEach(function(s){if(s.getBoundingClientRect().top<=140)cur=s.id});
+      links.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')==='#'+cur)});
+      ticking=false;
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+  var tg=document.getElementById('navToggle'),bd=document.getElementById('backdrop');
+  tg.addEventListener('click',function(){app.classList.toggle('drawer-open')});
+  bd.addEventListener('click',function(){app.classList.remove('drawer-open')});
+  links.forEach(function(a){a.addEventListener('click',function(){app.classList.remove('drawer-open')})});
+})();
+</script>
+
+</body></html>
