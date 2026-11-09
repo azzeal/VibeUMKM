@@ -645,46 +645,44 @@ Cari akar masalahnya, bukan hanya membungkam error dengan any atau @ts-ignore. S
 <!-- 7 -->
 <section id="s7">
   <div class="sh"><span class="num">7</span><h2>Pull request</h2><span class="when"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Sekitar 25 menit</span></div>
-  <div class="note info"><strong>Semua lewat terminal</strong><p>Langkah 7.1 sampai 7.3 memakai perintah git dan selalu bisa dipakai. Langkah 7.4 meminta AI yang menjalankan commit dan push.</p></div>
+  <div class="note info"><strong>Semua lewat AI desktop</strong><p>Commit, push, dan Pull Request dikerjakan lewat <b>OpenCode Desktop</b> atau <b>Freebuff Desktop</b> — seperti meminta asisten untuk menyimpan hasilmu ke repo. Pilih sesuai alat yang kamu pakai di bagian 0.4.</p></div>
 
   <div class="step" data-id="7.1">
-    <h3><span class="sn">7.1</span>Commit perubahan</h3>
-    <div class="row"><span class="lab">Periksa dulu</span><p>Jalankan <code class="i">git status</code>. Pastikan <code class="i">.env.local</code> tidak muncul di daftar file yang akan di-commit.</p></div>
-    <div class="code cmd"><pre>git add .
-git commit -m "revamp tampilan, perbaikan bug, dan penguatan keamanan"</pre></div>
-    <div class="row"><span class="lab">Berhasil kalau</span><p><code class="i">git log --oneline -1</code> menampilkan commit barumu.</p></div>
-    <div class="row"><span class="lab">Kebiasaan</span><p>Satu perbaikan selesai, satu commit. Pisahkan revamp, fix, dan security supaya mudah ditinjau.</p></div>
+    <h3><span class="sn">7.1</span>Siapkan AI desktop untuk GitHub</h3>
+    <div class="hv-freebuff" style="display:grid;gap:12px">
+      <div class="row"><span class="lab">Freebuff</span><p>Buka <b>Integrations</b>, pilih <b>GitHub</b>, lalu <b>Connect</b>. Untuk commit dan push dari komputermu, Freebuff memakai Git dan kredensial yang sudah tersimpan di komputer.</p></div>
+    </div>
+    <div class="hv-opencode" style="display:grid;gap:12px">
+      <div class="row"><span class="lab">OpenCode</span><p>OpenCode Desktop memakai Git dan kredensial di komputermu, jadi tidak ada tombol connect terpisah. Pastikan folder proyek ini adalah folder yang sedang dibuka di OpenCode.</p></div>
+    </div>
+    <div class="row"><span class="lab">Login sekali saja</span><p>Push pertama membuka jendela <b>Git Credential Manager</b>. Pilih <b>Sign in with your browser</b>, setujui akses, lalu kembali. Setelah ini kamu tidak ditanya lagi. Di Mac, gunakan Personal Access Token sebagai password bila diminta.</p></div>
   </div>
 
   <div class="step" data-id="7.2">
-    <h3><span class="sn">7.2</span>Push branch dan buka Pull Request</h3>
-    <div class="code cmd"><pre>git push -u origin revamp-<span class="ph" data-k="user">[username GitHub]</span></pre></div>
-    <div class="row"><span class="lab">Login sekali saja</span><p>Push pertama membuka jendela <b>Git Credential Manager</b>. Pilih <b>Sign in with your browser</b>, setujui akses, lalu kembali ke terminal. Setelah ini kamu tidak ditanya lagi.</p></div>
-    <div class="row"><span class="lab">Buka PR</span><p>Buka repo-mu di GitHub. Setelah branch ter-push, muncul banner <b>Compare &amp; pull request</b>. Kalau tidak muncul, buka tab <b>Pull requests &rarr; New pull request</b>, pilih base <code class="i">main</code> dan compare branch kerjamu.</p></div>
-    <div class="row"><span class="lab">Isi PR</span><div class="code"><pre>Tugas A (revamp): [3 halaman yang diubah dan alasannya]
-Tugas B (fix): [bug yang dibetulkan dan cara memunculkannya]
-Tugas C (security): [perbaikan yang dipilih dan serangan yang dicegah]
-Bukti: [link Vercel]</pre></div></div>
-    <div class="row"><span class="lab">Berhasil kalau</span><p>Pull Request terbuka, tanpa konflik, dan semua commit terlihat di tab <b>Commits</b>.</p></div>
+    <h3><span class="sn">7.2</span>Cek dulu sebelum minta AI</h3>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Jalankan git status dan git remote -v, lalu jelaskan hasilnya dengan bahasa sederhana. Jangan ubah file apa pun.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>AI menyebut nama branch kerjamu, daftar file yang berubah, dan alamat remote yang menunjuk ke repo milikmu.</p></div>
   </div>
 
   <div class="step" data-id="7.3">
-    <h3><span class="sn">7.3</span>Tulis NOTES.md</h3>
-    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Buat NOTES.md berisi satu paragraf: apa yang sempat rusak saat saya mengerjakan tugas ini, bagaimana saya menemukannya, dan bagaimana saya memperbaikinya. Jujur dan spesifik, sebutkan nama file.</pre></div></div>
-    <div class="row"><span class="lab">Berhasil kalau</span><p>NOTES.md ada di repo dan isinya bukan kalimat umum seperti "semua berjalan lancar".</p></div>
+    <h3><span class="sn">7.3</span>Minta AI commit dan push</h3>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Commit semua perubahan dengan pesan "revamp, fix, dan security", lalu push ke branch revamp-<span class="ph" data-k="user">[username GitHub]</span>. Sebelum commit, pastikan .env.local tidak ikut ter-commit. Setelah selesai tampilkan git log --oneline -3.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p><code class="i">git log --oneline -3</code> menampilkan commit barumu, dan branch muncul di repo GitHub-mu.</p></div>
+    <div class="row"><span class="lab">Kebiasaan</span><p>Satu perbaikan selesai, satu commit. Pisahkan revamp, fix, dan security supaya mudah ditinjau.</p></div>
   </div>
 
   <div class="step" data-id="7.4">
-    <h3><span class="sn">7.4</span>Minta AI yang commit dan push</h3>
-    <div class="hv-freebuff" style="display:grid;gap:12px">
-      <div class="row"><span class="lab">Siapkan</span><p>Buka <b>Integrations</b> di Freebuff, pilih <b>GitHub</b>, lalu <b>Connect</b>. Untuk commit dari komputermu, Freebuff memakai Git dan kredensial yang sudah tersimpan di komputer.</p></div>
-    </div>
-    <div class="hv-opencode" style="display:grid;gap:12px">
-      <div class="row"><span class="lab">Siapkan</span><p>OpenCode Desktop memakai Git dan kredensial di komputermu, jadi tidak ada tombol connect terpisah. Pastikan push manual di langkah 7.2 sudah pernah berhasil.</p></div>
-    </div>
-    <div class="row"><span class="lab">Cek dulu</span><div class="code"><pre>Jalankan git status dan git remote -v, lalu jelaskan hasilnya dengan bahasa sederhana. Jangan ubah file apa pun.</pre></div></div>
-    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Commit semua perubahan dengan pesan "revamp, fix, dan security", lalu push ke branch revamp-<span class="ph" data-k="user">[username GitHub]</span>. Setelah selesai tampilkan git log --oneline -3.</pre></div></div>
-    <div class="row"><span class="lab">Jangan</span><p>Jangan pernah menempelkan token atau password ke chat. Kalau AI memintanya, hentikan dan push sendiri lewat terminal.</p></div>
+    <h3><span class="sn">7.4</span>Minta AI membuat Pull Request</h3>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Buka halaman perbandingan PR di repo ini (base main, compare revamp-<span class="ph" data-k="user">[username GitHub]</span>) di browser. Isi judul "Revamp, fix, dan security" dan deskripsi per Tugas A (revamp, 3 halaman dan alasannya), Tugas B (bug yang dibetulkan dan cara memunculkannya), Tugas C (perbaikan keamanan dan serangan yang dicegah), plus link Vercel. Lalu klik Create pull request dan tunjukkan tautannya.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Pull Request terbuka, tanpa konflik, dan semua commit terlihat di tab <b>Commits</b>.</p></div>
+    <div class="row"><span class="lab">Kalau browser gagal</span><p>Minta AI menampilkan alamat halaman perbandingan itu, lalu buka sendiri di browser dan klik <b>Compare &amp; pull request</b>.</p></div>
+  </div>
+
+  <div class="step" data-id="7.5">
+    <h3><span class="sn">7.5</span>Tulis NOTES.md</h3>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Buat NOTES.md berisi satu paragraf: apa yang sempat rusak saat saya mengerjakan tugas ini, bagaimana saya menemukannya, dan bagaimana saya memperbaikinya. Jujur dan spesifik, sebutkan nama file.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>NOTES.md ada di repo dan isinya bukan kalimat umum seperti "semua berjalan lancar".</p></div>
+    <div class="row"><span class="lab">Jangan</span><p>Jangan pernah menempelkan token atau password ke chat. Kalau AI memintanya, hentikan dan kerjakan sendiri di GitHub.</p></div>
   </div>
 </section>
 
