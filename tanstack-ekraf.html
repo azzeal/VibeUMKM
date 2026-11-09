@@ -141,6 +141,7 @@ section{display:grid;gap:18px;scroll-margin-top:calc(env(safe-area-inset-top,0px
 .row{display:grid;grid-template-columns:130px minmax(0,1fr);gap:6px 16px;align-items:start}
 .lab{font:700 13px/1.7 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}
 @media (max-width:620px){ .row{grid-template-columns:minmax(0,1fr)} }
+@media (min-width:621px){ .row>.code{grid-column:2} }
 
 /* code */
 .code{position:relative;background:var(--code-bg);color:var(--code-fg);border-radius:10px;min-width:0}
@@ -148,6 +149,7 @@ section{display:grid;gap:18px;scroll-margin-top:calc(env(safe-area-inset-top,0px
 .code .copy{all:unset;cursor:pointer;position:absolute;top:8px;right:8px;font:700 13px/1 var(--f-mono);padding:8px 11px;border-radius:7px;background:var(--code-fg);color:var(--code-bg)}
 .code .copy:hover{opacity:.88}
 .code .copy:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.code.cmd pre{white-space:pre;overflow-wrap:normal;word-break:normal;overflow-x:auto;padding-right:74px}
 .ph{background:var(--ph-bg);color:var(--ph-fg);border-radius:4px;padding:0 4px;font-weight:700}
 .ph.filled{background:var(--ph-ok-bg)}
 p .ph,li .ph,td .ph{font:700 15px/1.5 var(--f-mono)}
@@ -387,7 +389,7 @@ html{scroll-behavior:smooth}
     <h3><span class="sn">2.1</span>Fork dan clone repo</h3>
     <div class="row"><span class="lab">Fork</span><p>Buka <a href="https://github.com/azzeal/tanstack_ekraf" target="_blank" rel="noopener">github.com/azzeal/tanstack_ekraf</a>, klik <b>Fork</b>, lalu <b>Create fork</b>. Kini kamu punya salinan sendiri yang boleh diubah.</p></div>
     <div class="row"><span class="lab">Clone</span><p>Buka folder <b>Documents</b>, klik kanan di area kosong, pilih <b>Open Git Bash here</b> (Windows) atau buka Terminal (Mac), lalu jalankan perintah di bawah.</p></div>
-    <div class="code"><pre>git clone https://github.com/<span class="ph" data-k="user">[username GitHub]</span>/tanstack_ekraf.git <span class="ph" data-k="folder">[nama-folder]</span>
+    <div class="code cmd"><pre>git clone https://github.com/<span class="ph" data-k="user">[username GitHub]</span>/tanstack_ekraf.git <span class="ph" data-k="folder">[nama-folder]</span>
 cd <span class="ph" data-k="folder">[nama-folder]</span>
 bun install</pre></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p>Muncul folder proyek di Documents, dan <code class="i">bun install</code> selesai tanpa tulisan merah.</p></div>
@@ -396,9 +398,9 @@ bun install</pre></div>
   <div class="step" data-id="2.2">
     <h3><span class="sn">2.2</span>Buat file .env.local</h3>
     <div class="row"><span class="lab">Kenapa</span><p>Aplikasi butuh alamat dasar dan kunci sesi. Tanpa keduanya, login akan gagal.</p></div>
-    <div class="row"><span class="lab">Buat kunci</span><p>Jalankan perintah ini di folder proyek, lalu salin hasilnya.</p><div class="code"><pre>bun x @better-auth/cli secret</pre></div></div>
-    <div class="row"><span class="lab">Isi file</span><p>Buat file bernama <code class="i">.env.local</code> di folder utama proyek, isinya dua baris berikut.</p><div class="code"><pre>BETTER_AUTH_URL=http://localhost:3000
-BETTER_AUTH_SECRET=tempel-hasil-perintah-di-atas</pre></div></div>
+    <div class="row"><span class="lab">Buat kunci</span><p>Jalankan perintah ini di folder proyek, lalu salin hasilnya.</p><div class="code cmd"><pre>bun x @better-auth/cli secret</pre></div></div>
+    <div class="row"><span class="lab">Isi file</span><p>Buat file bernama <code class="i">.env.local</code> di folder utama proyek, isinya dua baris berikut.</p><div class="code cmd"><pre>BETTER_AUTH_URL=http://localhost:3000
+BETTER_AUTH_SECRET=<span class="ph">tempel-hasil-di-atas</span></pre></div></div>
     <div class="row"><span class="lab">Jangan</span><p>Jangan pernah menempelkan isi <code class="i">.env.local</code> ke chat AI atau ke GitHub. File itu sudah masuk <code class="i">.gitignore</code>, biarkan begitu.</p></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p>File <code class="i">.env.local</code> ada di folder proyek dan berisi dua baris itu.</p></div>
   </div>
@@ -421,7 +423,7 @@ BETTER_AUTH_SECRET=tempel-hasil-perintah-di-atas</pre></div></div>
 
   <div class="step" data-id="2.5">
     <h3><span class="sn">2.5</span>Buat branch kerja</h3>
-    <div class="code"><pre>git checkout -b revamp-<span class="ph" data-k="user">[username GitHub]</span></pre></div>
+    <div class="code cmd"><pre>git checkout -b revamp-<span class="ph" data-k="user">[username GitHub]</span></pre></div>
     <div class="row"><span class="lab">Kenapa</span><p>Semua perubahanmu masuk ke branch ini, bukan ke <code class="i">main</code>. Nanti branch ini yang jadi Pull Request.</p></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p><code class="i">git status</code> menyebut nama branch barumu.</p></div>
   </div>
@@ -687,7 +689,7 @@ Bukti: [link Vercel]</pre></div></div>
   <div class="step" data-id="8.2">
     <h3><span class="sn">8.2</span>Isi environment variable</h3>
     <div class="row"><span class="lab">Langkah</span><p>Sebelum menekan Deploy, buka <b>Environment Variables</b> dan tambahkan dua baris berikut.</p></div>
-    <div class="code"><pre>BETTER_AUTH_URL=https://<span class="ph" data-k="folder">[nama-folder]</span>.vercel.app
+    <div class="code cmd"><pre>BETTER_AUTH_URL=https://<span class="ph" data-k="folder">[nama-folder]</span>.vercel.app
 BETTER_AUTH_SECRET=<span class="ph">[kunci baru dari bun x @better-auth/cli secret]</span></pre></div>
     <div class="row"><span class="lab">Penting</span><p>Jangan memakai kunci yang sama dengan <code class="i">.env.local</code> untuk produksi. Buat kunci baru, simpan di tempat aman, jangan di repo.</p></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p>Dua variabel itu terdaftar untuk environment Production.</p></div>
