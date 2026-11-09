@@ -489,7 +489,7 @@ html{scroll-behavior:smooth}
 <!-- 5 -->
 <section id="s5">
   <div class="sh"><span class="num">5</span><h2>Simpan ke GitHub</h2><span class="when"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Sekitar 20 menit</span></div>
-  <div class="note info"><strong>Semua langkah di GitHub Desktop</strong><p>Kamu cukup mengklik tombol, tanpa mengetik perintah. Nama tombol bisa sedikit berbeda di versi aplikasimu.</p></div>
+  <div class="note info"><strong>Langkah 5.1 sampai 5.4 memakai GitHub Desktop</strong><p>Kamu cukup mengklik tombol, tanpa mengetik perintah. Nama tombol bisa sedikit berbeda di versi aplikasimu. Setelah itu ada cara opsional memakai prompt AI di langkah 5.5 sampai 5.8.</p></div>
   <div class="step" data-id="5.1">
     <h3><span class="sn">5.1</span>Tambahkan folder proyek</h3>
     <div class="row"><span class="lab">Langkah</span><p>Di GitHub Desktop pilih menu <b>File &rarr; Add local repository</b>, lalu pilih folder proyekmu.</p></div>
@@ -515,6 +515,54 @@ html{scroll-behavior:smooth}
     <div class="row"><span class="lab">Lalu</span><p>Kembali ke GitHub Desktop. File baru muncul di tab Changes. Tulis <b>tambah README</b> di kotak Summary, klik <b>Commit to main</b>, lalu klik <b>Push origin</b> di bagian atas.</p></div>
     <div class="row"><span class="lab">Kebiasaan</span><p>Setiap kali satu fitur atau perbaikan selesai, ulangi commit dan Push origin dengan Summary yang berbeda. Minimal 3 commit tercatat sebelum dikumpulkan.</p></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p>Halaman repo di GitHub menampilkan jumlah commit minimal 3, dan README tampil di bawah daftar file.</p></div>
+  </div>
+
+  <h3 style="font-size:22px;font-weight:600;margin-top:6px">Hubungkan alat AI ke GitHub (opsional)</h3>
+  <p class="intro">Setelah akun GitHub-mu bisa dipakai alat AI, kamu bisa meminta AI yang menjalankan commit dan push. Hasilnya sama dengan menekan tombol di GitHub Desktop, hanya lebih cepat. Bagian ini hanya berjalan kalau langkah 0.3 dan 5.1 sampai 5.3 sudah selesai, jadi kerjakan yang itu dulu.</p>
+  <div class="note warn"><strong>Jangan pernah menempelkan password atau token ke chat</strong><p>Alat AI memakai login GitHub yang sudah ada di komputer, bukan password baru. Kalau AI meminta token, password, atau kunci akses, hentikan dan panggil fasilitator. Jangan pernah menyimpan rahasia semacam itu di dalam file proyek, karena repo kamu publik.</p></div>
+
+  <div class="step" data-id="5.5">
+    <h3><span class="sn">5.5</span>Hubungkan akun GitHub ke alat AI</h3>
+    <div class="hv-freebuff" style="display:grid;gap:12px">
+      <div class="row"><span class="lab">Langkah</span><p>Buka Freebuff, cari menu <b>Integrations</b> (biasanya di pengaturan akun), pilih <b>GitHub</b>, lalu klik <b>Connect</b>. Halaman izin terbuka di browser; masuk dengan akunmu dan setujui akses ke repo yang kamu buat.</p></div>
+      <div class="row"><span class="lab">Untuk apa</span><p>Integrasi ini membuat AI bisa membaca repo, issue, dan pull request. Untuk commit dari komputermu, Freebuff tetap memakai Git yang sudah login lewat GitHub Desktop.</p></div>
+    </div>
+    <div class="hv-opencode" style="display:grid;gap:12px">
+      <div class="row"><span class="lab">Langkah</span><p>OpenCode Desktop memakai login Git di komputermu, jadi tidak ada tombol connect terpisah. Cukup pastikan GitHub Desktop sudah login (langkah 0.3) dan repo sudah ada di GitHub (langkah 5.3).</p></div>
+      <div class="row"><span class="lab">Lanjutan, tidak wajib</span><p>Kalau nanti ingin memakai perintah <code class="i">/oc</code> langsung di issue atau pull request GitHub, jalankan <code class="i">opencode github install</code> di folder proyek lalu ikuti petunjuknya. Ini butuh pengaturan tambahan, jadi lewati dulu kalau belum perlu.</p></div>
+    </div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Nama akun GitHub-mu terlihat di alat AI, atau AI bisa menyebut alamat repo proyek ini saat ditanya.</p></div>
+    <div class="row"><span class="lab">Kalau bingung</span><p>Nama menu bisa berbeda di versi lain. Cari kata <b>GitHub</b> atau <b>Integrations</b> di pengaturan aplikasi, atau minta fasilitator menunjukkan layarnya.</p></div>
+  </div>
+
+  <div class="step" data-id="5.6">
+    <h3><span class="sn">5.6</span>Cek sambungan dengan satu prompt</h3>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Periksa folder kerja ini. Jalankan git status dan git remote -v, lalu jelaskan hasilnya dengan bahasa sederhana. Jangan ubah file apa pun.
+
+Repo GitHub saya seharusnya: https://github.com/<span class="ph" data-k="user">[username GitHub]</span>/<span class="ph" data-k="folder">[nama-folder]</span></pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>AI menyebut cabang <code class="i">main</code> (atau <code class="i">master</code>) dan alamat repo yang sama dengan repo-mu.</p></div>
+    <div class="row"><span class="lab">Kalau remote belum ada</span><p>Folder proyekmu belum tersambung ke repo. Kirim prompt berikut, lalu cek lagi dengan prompt di atas.</p><div class="code"><pre>Remote origin belum ada. Tambahkan remote origin dengan alamat https://github.com/<span class="ph" data-k="user">[username GitHub]</span>/<span class="ph" data-k="folder">[nama-folder]</span>, lalu tampilkan git remote -v untuk memastikan. Jangan push dulu.</pre></div></div>
+  </div>
+
+  <div class="step" data-id="5.7">
+    <h3><span class="sn">5.7</span>Minta AI commit dan push</h3>
+    <div class="row"><span class="lab">Sebelumnya</span><p>Buka dulu hasil websitemu di browser dan pastikan perubahannya memang yang kamu mau. AI akan menyimpan semua yang ada di folder, termasuk kesalahan.</p></div>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Commit semua perubahan di folder ini dengan pesan "perbaikan dari AI", lalu push ke branch main. Setelah selesai, tampilkan hasil git log --oneline -3.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Commit baru muncul di tab <b>History</b> GitHub Desktop dan di halaman repo GitHub. Kalau Vercel sudah terpasang, websitemu ikut diperbarui otomatis.</p></div>
+    <div class="row"><span class="lab">Kebiasaan</span><p>Satu fitur selesai, satu commit. Tulis pesan commit yang jelas, misalnya "tambah tombol WhatsApp", supaya riwayatmu mudah dibaca penilai.</p></div>
+    <div class="row"><span class="lab">Catat</span><p>Setiap kali AI yang melakukan push, tambahkan satu baris ke <code class="i">PROMPT-LOG.md</code> lewat prompt yang sama seperti di langkah 4.4.</p></div>
+  </div>
+
+  <div class="step" data-id="5.8">
+    <h3><span class="sn">5.8</span>Kalau AI tidak bisa push</h3>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Push gagal dengan pesan ini: [tempel pesan error apa adanya]. Jelaskan penyebabnya dengan bahasa sederhana, lalu sebutkan tombol yang harus saya klik di GitHub Desktop. Jangan meminta atau menyimpan token dan password.</pre></div></div>
+    <ul class="clean">
+      <li><b>Authentication failed</b> berarti login Git di komputermu kedaluwarsa. Buka GitHub Desktop, masuk lagi lewat <b>File &rarr; Options &rarr; Accounts</b>, lalu push dari sana.</li>
+      <li><b>Repository not found</b> berarti alamat repo salah atau belum dibuat. Bandingkan dengan alamat di halaman repo GitHub-mu.</li>
+      <li><b>Permission denied</b> berarti repo itu bukan milik akun yang sedang login.</li>
+      <li><b>Rejected</b> berarti isi repo berubah di GitHub. Minta AI menjalankan <code class="i">git pull --rebase</code>, periksa hasilnya, baru push lagi.</li>
+    </ul>
+    <div class="row"><span class="lab">Batas aman</span><p>Kalau AI tetap gagal setelah dua kali mencoba, kembali ke GitHub Desktop dan kerjakan lewat tombol. Cara itu selalu cukup untuk mengumpulkan tugas.</p></div>
   </div>
 </section>
 
@@ -599,6 +647,8 @@ Website: <span class="ph" data-k="vercel">[link Vercel]</span></pre></div></div>
     <details class="dd"><summary>Website di Vercel menampilkan 404</summary><div class="in"><p>Biasanya file halamanmu bukan bernama <code class="i">index.html</code> atau tidak berada di folder utama. Minta AI memindahkannya, lalu commit dan Push origin lagi di GitHub Desktop.</p><div class="code"><pre>Pindahkan halaman website ke index.html di folder utama.</pre></div></div></details>
     <details class="dd"><summary>AI merusak hasil yang tadinya sudah bagus</summary><div class="in"><p>Di GitHub Desktop, buka tab Changes, klik kanan salah satu file yang berubah, lalu pilih <b>Discard Changes</b> (atau <b>Discard All Changes</b> untuk semuanya). Ini mengembalikan file ke commit terakhir dan membuang perubahan yang belum di-commit, jadi pastikan kamu memang ingin membatalkannya.</p><p>Karena itu kamu perlu commit setiap kali satu fitur berhasil.</p></div></details>
     <details class="dd"><summary>Tampilan di HP berantakan</summary><div class="in"><div class="code"><pre>Di layar HP lebar 400px, bagian [sebutkan bagian yang rusak] keluar dari layar. Perbaiki agar rapi di HP tanpa mengubah bagian lain.</pre></div></div></details>
+    <details class="dd"><summary>Menunya bernama "Integrations" tidak ketemu</summary><div class="in"><p>Nama menu bisa berbeda antar versi. Cari kata <b>GitHub</b> di halaman pengaturan akun alat AI-mu. Kalau tetap tidak ada, lewati saja: commit lewat GitHub Desktop sudah cukup untuk tugas ini.</p></div></details>
+    <details class="dd"><summary>AI bilang tidak punya izin ke GitHub</summary><div class="in"><p>Artinya login Git di komputer belum aktif atau repo belum tersambung. Kerjakan langkah 5.5 dan 5.6, lalu coba lagi. Jangan pernah menjawab permintaan token dari AI dengan menempelkan token asli.</p></div></details>
   </div>
 </section>
 
@@ -616,6 +666,9 @@ Website: <span class="ph" data-k="vercel">[link Vercel]</span></pre></div></div>
     <div><b>GitHub</b><span>Situs tempat menyimpan proyek secara online.</span></div>
     <div><b>Repo</b><span>Singkatan repository, yaitu proyekmu di GitHub.</span></div>
     <div><b>Push</b><span>Mengirim commit dari komputer ke GitHub, lewat tombol Push origin.</span></div>
+    <div><b>Remote</b><span>Alamat repo GitHub yang tersimpan di folder proyekmu, biasanya bernama origin.</span></div>
+    <div><b>Integrasi</b><span>Izin yang menghubungkan alat AI ke layanan lain, misalnya GitHub.</span></div>
+    <div><b>Token akses</b><span>Kunci rahasia pengganti password untuk aplikasi. Jangan pernah ditempel ke chat atau disimpan di repo.</span></div>
     <div><b>Vercel</b><span>Layanan yang menayangkan website dari repo GitHub.</span></div>
     <div><b>Deploy</b><span>Menayangkan website agar bisa dibuka lewat internet.</span></div>
   </div>
