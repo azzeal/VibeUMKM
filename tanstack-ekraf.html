@@ -205,6 +205,7 @@ details.dd[open]{border-color:var(--edge)}
 details.dd[open] summary{margin-bottom:10px}
 details.dd .in{display:grid;gap:10px}
 .faq{display:grid;gap:10px}
+#s10 .intro{font-size:15px;max-width:54ch}
 .gloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
 .gloss div{border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--card);display:grid;gap:4px;align-content:start}
 .gloss b{font:700 16px/1.3 var(--f-body)}
@@ -216,8 +217,8 @@ footer{margin-top:20px;color:var(--muted);font-size:15px}
 #app[data-os="mac"] .only-win{display:none!important}
 #app[data-h="freebuff"] .hv-opencode{display:none!important}
 #app[data-h="opencode"] .hv-freebuff{display:none!important}
-.fab{position:fixed;z-index:75;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:4px;padding:5px;border:1.5px solid var(--edge);border-radius:999px;background:var(--card);box-shadow:0 8px 22px rgba(0,0,0,.2);max-width:calc(100vw - 32px)}
-.fab-btn{all:unset;cursor:pointer;white-space:nowrap;padding:10px 13px;border-radius:999px;font:700 15px/1 var(--f-body);color:var(--ink)}
+.fab{position:fixed;z-index:75;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:3px;padding:4px;border:1.5px solid var(--edge);border-radius:999px;background:var(--card);box-shadow:0 8px 22px rgba(0,0,0,.2);max-width:calc(100vw - 32px)}
+.fab-btn{all:unset;cursor:pointer;white-space:nowrap;padding:8px 10px;border-radius:999px;font:700 13px/1 var(--f-body);color:var(--ink)}
 .fab-btn:hover{background:var(--soft)}
 .fab-btn[aria-pressed="true"]{background:var(--ink);color:var(--card)}
 .fab-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
@@ -592,41 +593,34 @@ Cari akar masalahnya, bukan hanya membungkam error dengan any atau @ts-ignore. S
 <!-- 6 -->
 <section id="s6">
   <div class="sh"><span class="num">6</span><h2>Perkuat keamanan</h2><span class="when"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg>Sekitar 75 menit</span></div>
-  <div class="note warn"><strong>Minimal dua perbaikan, satu dari tiap kolom</strong><p>Pilih satu dari izin akses dan satu dari pengerasan aplikasi. Setiap perbaikan wajib kamu jelaskan: serangan apa yang dicegah.</p></div>
+  <div class="note warn"><strong>Minimal dua perbaikan, satu dari tiap kolom</strong><p>Cukup kerjakan <b>satu pilihan</b> dari Langkah 6.1 dan <b>satu pilihan</b> dari Langkah 6.2 — dua langkah itu plus catatan di 6.3 sudah dihitung selesai. Setiap perbaikan wajib kamu jelaskan: serangan apa yang dicegah.</p></div>
 
   <div class="step" data-id="6.1">
-    <h3><span class="sn">6.1</span>Audit izin di setiap server function</h3>
+    <h3><span class="sn">6.1</span>Satu perbaikan kolom izin akses (pilih 1)</h3>
+    <div class="row"><span class="lab">Pilihan A</span><p><b>Audit izin di setiap server function.</b> Minta AI memeriksa semua server function dan route API, lalu menambahkan penjagaan yang kurang.</p></div>
     <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Periksa semua server function di src/lib/server/ dan route API. Buat tabel: nama function, apakah memanggil requireAuth atau requireAdmin, dan apakah alasannya tepat. Jangan ubah kode dulu, cukup laporkan yang belum dijaga.</pre></div></div>
-    <div class="row"><span class="lab">Lalu</span><p>Minta AI menambahkan penjagaan yang kurang, satu function per prompt, lalu uji dengan logout: setiap aksi tulis harus ditolak.</p></div>
-    <div class="row"><span class="lab">Berhasil kalau</span><p>Tidak ada aksi tulis yang bisa dijalankan tanpa sesi, dan tidak ada aksi admin yang bisa dijalankan pengguna biasa.</p></div>
+    <div class="row"><span class="lab">Pilihan B</span><p><b>Cegah admin mengunci dirinya sendiri.</b></p></div>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Di server function updateUserRole dan deleteUser, tolak perubahan yang membuat admin menurunkan perannya sendiri atau menghapus akunnya sendiri. Tolak juga penghapusan admin terakhir. Kembalikan pesan error yang jelas. Tambahkan juga pemeriksaan yang sama di tampilan agar tombolnya nonaktif, tetapi tetap tegakkan di server.</pre></div></div>
+    <div class="row"><span class="lab">Uji</span><p>Masuk sebagai admin, coba ubah peranmu sendiri jadi user, lalu coba hapus akunmu. Keduanya harus ditolak.</p></div>
+    <div class="row"><span class="lab">Pilihan C</span><p><b>Batasi percobaan login.</b></p></div>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Tambahkan pembatasan percobaan login: maksimal 5 kegagalan per alamat IP dalam 15 menit, lalu tolak sementara dengan pesan yang sopan. Gunakan src/lib/rate-limit.ts yang sudah ada. Pastikan penghitungnya tidak bisa dilewati dengan mengganti header. Jelaskan batasannya dan risikonya di komentar singkat.</pre></div></div>
+    <div class="row"><span class="lab">Uji</span><p>Coba login dengan password salah 6 kali. Percobaan keenam harus ditolak, dan login dengan password benar sesudahnya juga ditolak sampai waktunya habis.</p></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Salah satu dari tiga pilihan itu selesai dan teruji. Centang langkah ini, jangan tunggu dua-duanya.</p></div>
   </div>
 
   <div class="step" data-id="6.2">
-    <h3><span class="sn">6.2</span>Cegah admin mengunci dirinya sendiri</h3>
-    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Di server function updateUserRole dan deleteUser, tolak perubahan yang membuat admin menurunkan perannya sendiri atau menghapus akunnya sendiri. Tolak juga penghapusan admin terakhir. Kembalikan pesan error yang jelas. Tambahkan juga pemeriksaan yang sama di tampilan agar tombolnya nonaktif, tetapi tetap tegakkan di server.</pre></div></div>
-    <div class="row"><span class="lab">Uji</span><p>Masuk sebagai admin, coba ubah peranmu sendiri jadi user, lalu coba hapus akunmu. Keduanya harus ditolak.</p></div>
+    <h3><span class="sn">6.2</span>Satu perbaikan pengerasan aplikasi (pilih 1)</h3>
+    <div class="row"><span class="lab">Pilihan A</span><p><b>Validasi ulang di server dengan Zod.</b></p></div>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Pastikan setiap server function memvalidasi inputnya dengan Zod di server, memakai .strict() agar kolom asing ditolak. Periksa juga batas panjang teks, harga dan stok tidak negatif, serta id harus berupa string yang ada. Jangan mengandalkan validasi di form saja. Tunjukkan satu contoh request yang sekarang ditolak.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p>Mengirim kolom tambahan seperti <code class="i">id</code> atau <code class="i">createdAt</code> dari klien ditolak, bukan diterima diam-diam.</p></div>
+    <div class="row"><span class="lab">Pilihan B</span><p><b>Cookie sesi dan kebocoran rahasia.</b></p></div>
+    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Periksa konfigurasi sesi di src/lib/auth.ts. Pastikan cookie httpOnly, sameSite lax, secure hanya di produksi, dan ada masa berlaku sesi yang wajar. Lalu cari di seluruh repo: kunci rahasia yang ditulis langsung di kode, file .env yang ikut ter-commit, dan pemakaian dangerouslySetInnerHTML dengan data pengguna. Laporkan temuan dan usulkan perbaikannya.</pre></div></div>
+    <div class="row"><span class="lab">Berhasil kalau</span><p><code class="i">git status</code> tidak menampilkan <code class="i">.env.local</code>, dan tidak ada rahasia di file yang masuk repo.</p></div>
+    <div class="row"><span class="lab">Centang</span><p>Salah satu dari dua pilihan itu selesai dan teruji. Centang langkah ini, jangan tunggu dua-duanya.</p></div>
   </div>
 
   <div class="step" data-id="6.3">
-    <h3><span class="sn">6.3</span>Batasi percobaan login</h3>
-    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Tambahkan pembatasan percobaan login: maksimal 5 kegagalan per alamat IP dalam 15 menit, lalu tolak sementara dengan pesan yang sopan. Gunakan src/lib/rate-limit.ts yang sudah ada. Pastikan penghitungnya tidak bisa dilewati dengan mengganti header. Jelaskan batasannya dan risikonya di komentar singkat.</pre></div></div>
-    <div class="row"><span class="lab">Uji</span><p>Coba login dengan password salah 6 kali. Percobaan keenam harus ditolak, dan login dengan password benar sesudahnya juga ditolak sampai waktunya habis.</p></div>
-  </div>
-
-  <div class="step" data-id="6.4">
-    <h3><span class="sn">6.4</span>Validasi ulang di server dengan Zod</h3>
-    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Pastikan setiap server function memvalidasi inputnya dengan Zod di server, memakai .strict() agar kolom asing ditolak. Periksa juga batas panjang teks, harga dan stok tidak negatif, serta id harus berupa string yang ada. Jangan mengandalkan validasi di form saja. Tunjukkan satu contoh request yang sekarang ditolak.</pre></div></div>
-    <div class="row"><span class="lab">Berhasil kalau</span><p>Mengirim kolom tambahan seperti <code class="i">id</code> atau <code class="i">createdAt</code> dari klien ditolak, bukan diterima diam-diam.</p></div>
-  </div>
-
-  <div class="step" data-id="6.5">
-    <h3><span class="sn">6.5</span>Cookie sesi dan kebocoran rahasia</h3>
-    <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Periksa konfigurasi sesi di src/lib/auth.ts. Pastikan cookie httpOnly, sameSite lax, secure hanya di produksi, dan ada masa berlaku sesi yang wajar. Lalu cari di seluruh repo: kunci rahasia yang ditulis langsung di kode, file .env yang ikut ter-commit, dan pemakaian dangerouslySetInnerHTML dengan data pengguna. Laporkan temuan dan usulkan perbaikannya.</pre></div></div>
-    <div class="row"><span class="lab">Berhasil kalau</span><p><code class="i">git status</code> tidak menampilkan <code class="i">.env.local</code>, dan tidak ada rahasia di file yang masuk repo.</p></div>
-  </div>
-
-  <div class="step" data-id="6.6">
-    <h3><span class="sn">6.6</span>Tulis alasan keamanannya</h3>
+    <h3><span class="sn">6.3</span>Tulis alasan keamanannya</h3>
     <div class="row"><span class="lab">Prompt</span><div class="code"><pre>Buat file SECURITY-NOTES.md. Untuk setiap perbaikan keamanan yang saya lakukan, tulis: nama perbaikan, file yang diubah, serangan yang dicegah, dan cara mengujinya dalam satu langkah. Bahasa Indonesia, maksimal dua kalimat per poin.</pre></div></div>
     <div class="row"><span class="lab">Berhasil kalau</span><p>Setiap perbaikan punya penjelasan yang bisa kamu bacakan saat demo.</p></div>
   </div>
